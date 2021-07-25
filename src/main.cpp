@@ -31,8 +31,8 @@ void writeSurfaceMesh(int frameno, FluidSimulation &fluidsim) {
     std::ostringstream ss;
     ss << frameno;
     std::string frameString = ss.str();
-    frameString.insert(frameString.begin(), 6 - frameString.size(), '0');
-    std::string filepath = "C:/tmp/" + frameString + ".ply";
+    //frameString.insert(frameString.begin(), 6 - frameString.size(), '0');
+    std::string filepath = "C:/tmp/fluid_" + frameString + ".ply";
 
     std::vector<char> *data = fluidsim.getSurfaceData();
     std::ofstream ply(filepath.c_str(), std::ios::out | std::ios::binary);
@@ -93,7 +93,7 @@ int main() {
     fluidsim.addBodyForce(0.0, -25.0, 0.0);
     fluidsim.initialize();
     double timestep = 1.0 / 30.0;
-    for (;;) {
+    for (int i = 0; i < 200; i++) {
         int frameno = fluidsim.getCurrentFrame();
         fluidsim.update(timestep);
         writeSurfaceMesh(frameno, fluidsim);
