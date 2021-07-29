@@ -69,9 +69,9 @@ TriangleMesh getTriangleMeshFromAABB(AABB bbox) {
 int main() {
     // This example will drop a box of fluid in the center
     // of the fluid simulation domain.
-    int isize = 64;
-    int jsize = 64;
-    int ksize = 64;
+    int isize = 20;
+    int jsize = 20;
+    int ksize = 20;
     double dx = 0.125;
     FluidSimulation fluidsim(isize, jsize, ksize, dx);
     
@@ -93,7 +93,7 @@ int main() {
     fluidsim.addBodyForce(0.0, -25.0, 0.0);
     fluidsim.initialize();
     double timestep = 1.0 / 30.0;
-    for (int i = 0; i < 200; i++) {
+    for (int i = 0; i < 10; i++) {
         int frameno = fluidsim.getCurrentFrame();
         fluidsim.update(timestep);
         writeSurfaceMesh(frameno, fluidsim);

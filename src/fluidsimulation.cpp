@@ -5207,6 +5207,21 @@ void FluidSimulation::_outputSurfaceMeshThread(std::vector<vmath::vec3> *particl
     t.stop();
     _timingData.outputMeshSimulationData += t.getTime();
 
+    /*for (int i = 0; i < 3; i++)
+    {
+        std::cout << isomesh.vertices[i] << " /\n";
+    }
+    for (int i = 0; i < 3; i++)
+    {
+        for (int j = 0; j < 3; j++)
+        {
+            std::cout << isomesh.triangles[i].tri[j] << " /";
+        }
+        std::cout << "\n";
+    }*/
+    std::cout << isomesh.vertices.size() << " /\n";
+
+
     _logfile.logString(_logfile.getTime() + " COMPLETE    Generate Surface Mesh");
 }
 
