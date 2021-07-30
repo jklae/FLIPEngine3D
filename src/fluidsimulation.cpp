@@ -5221,7 +5221,7 @@ void FluidSimulation::_outputSurfaceMeshThread(std::vector<vmath::vec3> *particl
     }*/
     std::cout << isomesh.vertices.size() << " /\n";
 
-
+    isomesh2 = isomesh;
     _logfile.logString(_logfile.getTime() + " COMPLETE    Generate Surface Mesh");
 }
 

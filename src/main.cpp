@@ -24,10 +24,10 @@ SOFTWARE.
 
 #include <fstream>
 
+#include "../ext/DXViewer/src/Win32App.h"
 #include "fluidsimulation.h"
 #include "triangle.h"
 
-#include "../ext/DXViewer/src/Win32App.h"
 
 void writeSurfaceMesh(int frameno, FluidSimulation& fluidsim) {
     std::ostringstream ss;
@@ -71,24 +71,16 @@ TriangleMesh getTriangleMeshFromAABB(AABB bbox) {
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, int showCmd)
 {
-    int width = 800;
-    int height = 600;
-
-    Win32App winApp(width, height);
-    winApp.Initialize(hInstance);
-
-    winApp.InitDirectX();
-
-    int isize = 20;
-    int jsize = 20;
-    int ksize = 20;
+    int isize = 40;
+    int jsize = 40;
+    int ksize = 40;
     double dx = 0.125;
-    FluidSimulation fluidsim(isize, jsize, ksize, dx);
+    FluidSimulation* fluidsim = new FluidSimulation(isize, jsize, ksize, dx);
     
-    fluidsim.setSurfaceSubdivisionLevel(2);
+    fluidsim->setSurfaceSubdivisionLevel(2);
     
     double x, y, z;
-    fluidsim.getSimulationDimensions(&x, &y, &z);
+    fluidsim->getSimulationDimensions(&x, &y, &z);
     
     double boxWidth = (1.0 / 3.0) * x;
     double boxHeight = (1.0 / 3.0) * y;
@@ -98,17 +90,26 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, in
     TriangleMesh boxMesh = getTriangleMeshFromAABB(box);
     MeshObject boxFluidObject(isize, jsize, ksize, dx);
     boxFluidObject.updateMeshStatic(boxMesh);
-    fluidsim.addMeshFluid(boxFluidObject);
+    fluidsim->addMeshFluid(boxFluidObject);
     
-    fluidsim.addBodyForce(0.0, -25.0, 0.0);
-    fluidsim.initialize();
+    fluidsim->addBodyForce(0.0, -25.0, 0.0);
+    fluidsim->initialize();
 
     double timestep = 1.0 / 30.0;
     for (int i = 0; i < 1; i++) {
-        int frameno = fluidsim.getCurrentFrame();
-        fluidsim.update(timestep);
-        writeSurfaceMesh(frameno, fluidsim);
+        int frameno = fluidsim->getCurrentFrame();
+        fluidsim->update(timestep);
+        writeSurfaceMesh(frameno, *fluidsim);
     }
+
+
+    int width = 800;
+    int height = 600;
+
+    Win32App winApp(width, height);
+    winApp.Initialize(hInstance);
+
+    winApp.InitDirectX(fluidsim, timestep);
 
     return winApp.Run();
 }

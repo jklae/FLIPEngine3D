@@ -118,6 +118,7 @@ class FluidSimulation
 {
 public:
     FluidSimulation();
+    TriangleMesh isomesh2;
 
     /*
         Constructs a FluidSimulation object with grid dimensions
