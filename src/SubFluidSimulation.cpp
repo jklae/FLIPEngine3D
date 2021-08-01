@@ -183,20 +183,9 @@ vector<Vertex> SubFluidSimulation::IGetVertice()
         int i2 = isomesh2.triangles[i].tri[2];
 
         
-        vec3 v0;
-        v0.x = vertice[i0].pos.x;
-        v0.y = vertice[i0].pos.y;
-        v0.z = vertice[i0].pos.z;
-
-        vec3 v1;
-        v1.x = vertice[i1].pos.x;
-        v1.y = vertice[i1].pos.y;
-        v1.z = vertice[i1].pos.z;
-
-        vec3 v2;
-        v2.x = vertice[i2].pos.x;
-        v2.y = vertice[i2].pos.y;
-        v2.z = vertice[i2].pos.z;
+        vec3 v0 = isomesh2.vertices[i0];
+        vec3 v1 = isomesh2.vertices[i1];
+        vec3 v2 = isomesh2.vertices[i2];
 
         vec3 e0 = v1 - v0;
         vec3 e1 = v2 - v0;
@@ -208,10 +197,13 @@ vector<Vertex> SubFluidSimulation::IGetVertice()
     }
 
 
-    //for (int i = 0; i < isomesh2.vertices.size(); i++)
-    //{
-    //    vertice[i].nor = normalize(vertice[i].nor);
-    //}
+    for (int i = 0; i < isomesh2.vertices.size(); i++)
+    {
+        vec3 nor = normalize(normal[i]);
+        vertice[i].nor.x = nor.x;
+        vertice[i].nor.y = nor.y;
+        vertice[i].nor.z = nor.z;
+    }
 
     return vertice;
 }
