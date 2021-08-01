@@ -4,9 +4,23 @@ CMAKE_MINIMUM_REQUIRED(VERSION 3.19.0)
 SET( PROJECT_NAME FlipEngine )
 PROJECT(${PROJECT_NAME})
 
-# Collect source files
-FILE( GLOB SRC src/*.cpp  )
-FILE( GLOB HDR src/*.h  )
+# Define character set as Unicode
+add_definitions(-DUNICODE -D_UNICODE)
 
-# Link Source files 
-ADD_EXECUTABLE( ${PROJECT_NAME}  ${SRC} ${HDR} )
+# add_subdirectory(ext/DXViewer)
+
+# Collect shader files
+FILE( GLOB VS_SHD ext/DXViewer/shader/vertexShader.hlsl )
+FILE( GLOB PS_SHD ext/DXViewer/shader/fragShader.hlsl )
+
+# Set the shader type of files
+set_property(SOURCE ${VS_SHD} PROPERTY VS_SHADER_TYPE Vertex)
+set_property(SOURCE ${PS_SHD} PROPERTY VS_SHADER_TYPE Pixel)
+
+# Collect source files
+FILE( GLOB SRC src/engine/*.cpp  ext/DXViewer/src/*.cpp src/*.cpp)
+FILE( GLOB HDR src/engine/*.h  ext/DXViewer/src/*.h src/*.h)
+FILE( GLOB SHD ${VS_SHD} ${PS_SHD} )
+
+# Link Source files ('WIN32' keyword is used for win32 project)
+ADD_EXECUTABLE( ${PROJECT_NAME} WIN32 ${SRC} ${HDR} ${SHD} )

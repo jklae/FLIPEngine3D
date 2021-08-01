@@ -126,7 +126,7 @@ public:
     */
     FluidSimulation(int isize, int jsize, int ksize, double dx);
 
-    ~FluidSimulation();
+    virtual ~FluidSimulation();
 
     /*
         Retrieve the simulator version
@@ -144,7 +144,7 @@ public:
 
         Must be called before running update() method.
     */
-    void initialize();
+    virtual void initialize();
     bool isInitialized();
 
     /*
@@ -1126,7 +1126,7 @@ public:
     void loadMarkerParticleData(FluidSimulationMarkerParticleData data);
     void loadDiffuseParticleData(FluidSimulationDiffuseParticleData data);
 
-private:   
+protected:   
 
     struct FluidMeshObject {
         MeshObject object;
@@ -1423,7 +1423,7 @@ private:
         Output Simulation Data
     */
     void _outputSimulationData();
-    void _outputSurfaceMeshThread(std::vector<vmath::vec3> *particles,
+    virtual void _outputSurfaceMeshThread(std::vector<vmath::vec3> *particles,
                                   MeshLevelSet *solidSDF);
     void _updateMeshingVolumeSDF();
     void _applyMeshingVolumeToSDF(MeshLevelSet *sdf);
