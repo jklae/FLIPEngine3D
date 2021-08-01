@@ -1,25 +1,27 @@
 #pragma once
+#include <fstream>
 #include "engine/fluidsimulation.h"
 #include "engine/stopwatch.h"
 #include "../ext/DXViewer/src/ISimulation.h"
-#include <fstream>
 
 class SubFluidSimulation : public FluidSimulation, public ISimulation
 {
-public:
+private:
     TriangleMesh isomesh2;
+    void _outputSurfaceMeshThread(std::vector<vmath::vec3>* particles, MeshLevelSet* solidSDF) override;
 
-    SubFluidSimulation(int isize, int jsize, int ksize, double dx);
-    ~SubFluidSimulation();
-
-    void _outputSurfaceMeshThread(std::vector<vmath::vec3>* particles,
-        MeshLevelSet* solidSDF) override;
-
+    // The ones originally in main.cpp
     void writeSurfaceMesh(int frameno);
     TriangleMesh getTriangleMeshFromAABB(AABB bbox);
 
+
+public:
+    SubFluidSimulation(int isize, int jsize, int ksize, double dx);
+    ~SubFluidSimulation();
+
     void initialize() override;
 
+    // Functions for virtual class
     void IUpdate(double timestep) override;
     std::vector<float> IGetVertice() override;
     std::vector<unsigned int> IGetIndice() override;
