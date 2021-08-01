@@ -1,4 +1,4 @@
-#include "SubFluidSimulation.h"
+#include "SubFluidSimulation.h" // This includes Win32App.h
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, int showCmd)
 {

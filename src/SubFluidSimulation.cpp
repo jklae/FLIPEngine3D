@@ -1,6 +1,8 @@
 #include "SubFluidSimulation.h"
 
 using namespace std;
+using namespace vmath;
+using namespace DirectX;
 
 SubFluidSimulation::SubFluidSimulation(int isize, int jsize, int ksize, double dx)
     :FluidSimulation(isize, jsize, ksize, dx)
@@ -159,7 +161,7 @@ void SubFluidSimulation::IUpdate(double timestep)
 vector<Vertex> SubFluidSimulation::IGetVertice()
 {
     vector<Vertex> vertice;
-    vertice.clear();
+    vector<vec3> normal;
 
     for (int i = 0; i < isomesh2.vertices.size(); i++)
     {
@@ -168,8 +170,48 @@ vector<Vertex> SubFluidSimulation::IGetVertice()
         v.pos.y = isomesh2.vertices[i].y;
         v.pos.z = isomesh2.vertices[i].z;
 
+        normal.push_back(vec3(0.0f, 0.0f, 0.0f));
+
         vertice.push_back(v);
     }
+
+
+    for (int i = 0; i < isomesh2.triangles.size(); i++)
+    {
+        int i0 = isomesh2.triangles[i].tri[0];
+        int i1 = isomesh2.triangles[i].tri[1];
+        int i2 = isomesh2.triangles[i].tri[2];
+
+        
+        vec3 v0;
+        v0.x = vertice[i0].pos.x;
+        v0.y = vertice[i0].pos.y;
+        v0.z = vertice[i0].pos.z;
+
+        vec3 v1;
+        v1.x = vertice[i1].pos.x;
+        v1.y = vertice[i1].pos.y;
+        v1.z = vertice[i1].pos.z;
+
+        vec3 v2;
+        v2.x = vertice[i2].pos.x;
+        v2.y = vertice[i2].pos.y;
+        v2.z = vertice[i2].pos.z;
+
+        vec3 e0 = v1 - v0;
+        vec3 e1 = v2 - v0;
+        vec3 faceN = cross(e0, e1);
+
+        normal[i0] += faceN;
+        normal[i1] += faceN;
+        normal[i2] += faceN;
+    }
+
+
+    //for (int i = 0; i < isomesh2.vertices.size(); i++)
+    //{
+    //    vertice[i].nor = normalize(vertice[i].nor);
+    //}
 
     return vertice;
 }
