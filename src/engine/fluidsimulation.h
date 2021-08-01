@@ -126,7 +126,7 @@ public:
     */
     FluidSimulation(int isize, int jsize, int ksize, double dx);
 
-    ~FluidSimulation();
+    virtual ~FluidSimulation();
 
     /*
         Retrieve the simulator version
@@ -144,7 +144,7 @@ public:
 
         Must be called before running update() method.
     */
-    void initialize();
+    virtual void initialize();
     bool isInitialized();
 
     /*

@@ -2,6 +2,7 @@
 #include "engine/fluidsimulation.h"
 #include "engine/stopwatch.h"
 #include "../ext/DXViewer/src/ISimulation.h"
+#include <fstream>
 
 class SubFluidSimulation : public FluidSimulation, public ISimulation
 {
@@ -12,7 +13,12 @@ public:
     ~SubFluidSimulation();
 
     void _outputSurfaceMeshThread(std::vector<vmath::vec3>* particles,
-        MeshLevelSet* solidSDF);
+        MeshLevelSet* solidSDF) override;
+
+    void writeSurfaceMesh(int frameno);
+    TriangleMesh getTriangleMeshFromAABB(AABB bbox);
+
+    void initialize() override;
 
     void IUpdate(double timestep) override;
     std::vector<float> IGetVertice() override;

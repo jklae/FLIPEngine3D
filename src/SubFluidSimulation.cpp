@@ -83,9 +83,77 @@ void SubFluidSimulation::_outputSurfaceMeshThread(std::vector<vmath::vec3>* part
 
 }
 
+
+void SubFluidSimulation::writeSurfaceMesh(int frameno) {
+    std::ostringstream ss;
+    ss << frameno;
+    std::string frameString = ss.str();
+    //frameString.insert(frameString.begin(), 6 - frameString.size(), '0');
+    std::string filepath = "C:/tmp/fluid_" + frameString + ".ply";
+
+    std::vector<char>* data = getSurfaceData();
+    std::ofstream ply(filepath.c_str(), std::ios::out | std::ios::binary);
+    ply.write(data->data(), data->size());
+    ply.close();
+}
+
+TriangleMesh SubFluidSimulation::getTriangleMeshFromAABB(AABB bbox) {
+    vmath::vec3 p = bbox.position;
+    std::vector<vmath::vec3> verts{
+        vmath::vec3(p.x, p.y, p.z),
+        vmath::vec3(p.x + bbox.width, p.y, p.z),
+        vmath::vec3(p.x + bbox.width, p.y, p.z + bbox.depth),
+        vmath::vec3(p.x, p.y, p.z + bbox.depth),
+        vmath::vec3(p.x, p.y + bbox.height, p.z),
+        vmath::vec3(p.x + bbox.width, p.y + bbox.height, p.z),
+        vmath::vec3(p.x + bbox.width, p.y + bbox.height, p.z + bbox.depth),
+        vmath::vec3(p.x, p.y + bbox.height, p.z + bbox.depth)
+    };
+
+    std::vector<Triangle> tris{
+        Triangle(0, 1, 2), Triangle(0, 2, 3), Triangle(4, 7, 6), Triangle(4, 6, 5),
+        Triangle(0, 3, 7), Triangle(0, 7, 4), Triangle(1, 5, 6), Triangle(1, 6, 2),
+        Triangle(0, 4, 5), Triangle(0, 5, 1), Triangle(3, 2, 6), Triangle(3, 6, 7)
+    };
+
+    TriangleMesh m;
+    m.vertices = verts;
+    m.triangles = tris;
+
+    return m;
+}
+
+
+void SubFluidSimulation::initialize()
+{
+    setSurfaceSubdivisionLevel(2);
+
+    double x, y, z;
+    getSimulationDimensions(&x, &y, &z);
+
+    double boxWidth = (1.0 / 3.0) * x;
+    double boxHeight = (1.0 / 3.0) * y;
+    double boxDepth = (1.0 / 3.0) * z;
+    vmath::vec3 boxPosition(0.5 * (x - boxWidth), 0.5 * (y - boxHeight), 0.5 * (z - boxDepth));
+    AABB box(boxPosition, boxWidth, boxHeight, boxDepth);
+    TriangleMesh boxMesh = getTriangleMeshFromAABB(box);
+    MeshObject boxFluidObject(_isize, _jsize, _ksize, _dx);
+    boxFluidObject.updateMeshStatic(boxMesh);
+    addMeshFluid(boxFluidObject);
+
+    addBodyForce(0.0, -25.0, 0.0);
+    FluidSimulation::initialize();
+
+}
+
+
+
+
 void SubFluidSimulation::IUpdate(double timestep)
 {
+    int frameno = getCurrentFrame();
     FluidSimulation::update(timestep);
+    writeSurfaceMesh(frameno);
 }
 
 vector<float> SubFluidSimulation::IGetVertice()
