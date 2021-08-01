@@ -102,3 +102,21 @@ vector<float> SubFluidSimulation::IGetVertice()
 
     return vertice;
 }
+
+vector<unsigned int> SubFluidSimulation::IGetIndice()
+{
+    vector<unsigned int> indice;
+    indice.clear();
+
+    for (int i = 0; i < isomesh2.triangles.size(); i++)
+    {
+        for (int j = 0; j < 3; j++)
+        {
+            unsigned int a = static_cast<unsigned int>(isomesh2.triangles[i].tri[j]);
+            indice.push_back(a);
+        }
+        //std::cout << "\n";
+    }
+
+    return indice;
+}

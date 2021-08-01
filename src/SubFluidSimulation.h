@@ -16,5 +16,6 @@ public:
 
     void IUpdate(double timestep) override;
     std::vector<float> IGetVertice() override;
+    std::vector<unsigned int> IGetIndice() override;
 };
 

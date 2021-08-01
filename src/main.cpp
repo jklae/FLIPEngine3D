@@ -71,9 +71,9 @@ TriangleMesh getTriangleMeshFromAABB(AABB bbox) {
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, int showCmd)
 {
-    int isize = 64;
-    int jsize = 64;
-    int ksize = 64;
+    int isize = 40;
+    int jsize = 40;
+    int ksize = 40;
     double dx = 0.125;
     SubFluidSimulation* fluidsim = new SubFluidSimulation(isize, jsize, ksize, dx);
     
