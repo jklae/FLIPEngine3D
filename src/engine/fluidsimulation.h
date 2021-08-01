@@ -118,7 +118,6 @@ class FluidSimulation
 {
 public:
     FluidSimulation();
-    TriangleMesh isomesh2;
 
     /*
         Constructs a FluidSimulation object with grid dimensions
@@ -1127,7 +1126,7 @@ public:
     void loadMarkerParticleData(FluidSimulationMarkerParticleData data);
     void loadDiffuseParticleData(FluidSimulationDiffuseParticleData data);
 
-private:   
+protected:   
 
     struct FluidMeshObject {
         MeshObject object;
@@ -1424,7 +1423,7 @@ private:
         Output Simulation Data
     */
     void _outputSimulationData();
-    void _outputSurfaceMeshThread(std::vector<vmath::vec3> *particles,
+    virtual void _outputSurfaceMeshThread(std::vector<vmath::vec3> *particles,
                                   MeshLevelSet *solidSDF);
     void _updateMeshingVolumeSDF();
     void _applyMeshingVolumeToSDF(MeshLevelSet *sdf);
