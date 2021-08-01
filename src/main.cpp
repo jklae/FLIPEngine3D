@@ -25,8 +25,8 @@ SOFTWARE.
 #include <fstream>
 
 #include "../ext/DXViewer/src/Win32App.h"
-#include "fluidsimulation.h"
-#include "triangle.h"
+#include "engine/fluidsimulation.h"
+#include "engine/triangle.h"
 
 
 void writeSurfaceMesh(int frameno, FluidSimulation& fluidsim) {
