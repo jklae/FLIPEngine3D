@@ -1,5 +1,6 @@
 #include "SubFluidSimulation.h"
 
+using namespace std;
 
 SubFluidSimulation::SubFluidSimulation(int isize, int jsize, int ksize, double dx)
     :FluidSimulation(isize, jsize, ksize, dx)
@@ -85,4 +86,19 @@ void SubFluidSimulation::_outputSurfaceMeshThread(std::vector<vmath::vec3>* part
 void SubFluidSimulation::IUpdate(double timestep)
 {
     FluidSimulation::update(timestep);
+}
+
+vector<float> SubFluidSimulation::IGetVertice()
+{
+    vector<float> vertice;
+    vertice.clear();
+
+    for (int i = 0; i < isomesh2.vertices.size(); i++)
+    {
+        vertice.push_back(isomesh2.vertices[i].x);
+        vertice.push_back(isomesh2.vertices[i].y);
+        vertice.push_back(isomesh2.vertices[i].z);
+    }
+
+    return vertice;
 }

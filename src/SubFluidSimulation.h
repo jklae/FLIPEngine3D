@@ -15,5 +15,6 @@ public:
         MeshLevelSet* solidSDF);
 
     void IUpdate(double timestep) override;
+    std::vector<float> IGetVertice() override;
 };
 
