@@ -3,7 +3,7 @@
 #include "engine/stopwatch.h"
 #include "../ext/DXViewer/src/ISimulation.h"
 
-class SubFluidSimulation : public FluidSimulation, ISimulation
+class SubFluidSimulation : public FluidSimulation, public ISimulation
 {
 public:
     TriangleMesh isomesh2;
