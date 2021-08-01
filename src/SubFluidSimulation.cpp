@@ -156,16 +156,19 @@ void SubFluidSimulation::IUpdate(double timestep)
     writeSurfaceMesh(frameno);
 }
 
-vector<float> SubFluidSimulation::IGetVertice()
+vector<Vertex> SubFluidSimulation::IGetVertice()
 {
-    vector<float> vertice;
+    vector<Vertex> vertice;
     vertice.clear();
 
     for (int i = 0; i < isomesh2.vertices.size(); i++)
     {
-        vertice.push_back(isomesh2.vertices[i].x);
-        vertice.push_back(isomesh2.vertices[i].y);
-        vertice.push_back(isomesh2.vertices[i].z);
+        Vertex v;
+        v.pos.x = isomesh2.vertices[i].x;
+        v.pos.y = isomesh2.vertices[i].y;
+        v.pos.z = isomesh2.vertices[i].z;
+
+        vertice.push_back(v);
     }
 
     return vertice;

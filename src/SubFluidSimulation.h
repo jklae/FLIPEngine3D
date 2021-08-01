@@ -2,7 +2,7 @@
 #include <fstream>
 #include "engine/fluidsimulation.h"
 #include "engine/stopwatch.h"
-#include "../ext/DXViewer/src/ISimulation.h"
+#include "../ext/DXViewer/src/Win32App.h" // This includes ISimulation.h
 
 class SubFluidSimulation : public FluidSimulation, public ISimulation
 {
@@ -23,7 +23,7 @@ public:
 
     // Functions for virtual class
     void IUpdate(double timestep) override;
-    std::vector<float> IGetVertice() override;
+    std::vector<Vertex> IGetVertice() override;
     std::vector<unsigned int> IGetIndice() override;
 };
 

@@ -1,4 +1,3 @@
-#include "../ext/DXViewer/src/Win32App.h"
 #include "SubFluidSimulation.h"
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, int showCmd)
