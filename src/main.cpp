@@ -2,9 +2,9 @@
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, int showCmd)
 {
-    int isize = 20;
-    int jsize = 20;
-    int ksize = 20;
+    int isize = 40;
+    int jsize = 40;
+    int ksize = 40;
     double dx = 0.125;
     double timestep = 1.0 / 30.0;
 
