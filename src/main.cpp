@@ -1,4 +1,10 @@
+// Console window is displayed in debug mode.
+#ifdef _DEBUG
+#pragma comment(linker, "/entry:WinMainCRTStartup /subsystem:console")
+#endif
+
 #include "SubFluidSimulation.h" // This includes Win32App.h
+
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, int showCmd)
 {

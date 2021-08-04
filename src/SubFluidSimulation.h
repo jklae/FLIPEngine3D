@@ -2,7 +2,7 @@
 #include <fstream>
 #include "engine/fluidsimulation.h"
 #include "engine/stopwatch.h"
-#include "../ext/DXViewer/src/Win32App.h" // This includes ISimulation.h
+#include "Win32App.h" // This includes ISimulation.h
 
 class SubFluidSimulation : public FluidSimulation, public ISimulation
 {
