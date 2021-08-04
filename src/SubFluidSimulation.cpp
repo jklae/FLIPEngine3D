@@ -91,7 +91,7 @@ void SubFluidSimulation::writeSurfaceMesh(int frameno) {
     ss << frameno;
     std::string frameString = ss.str();
     //frameString.insert(frameString.begin(), 6 - frameString.size(), '0');
-    std::string filepath = "C:/tmp/fluid_" + frameString + ".ply";
+    std::string filepath = "ply/fluid_" + frameString + ".ply";
 
     std::vector<char>* data = getSurfaceData();
     std::ofstream ply(filepath.c_str(), std::ios::out | std::ios::binary);
