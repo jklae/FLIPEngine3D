@@ -1,4 +1,6 @@
 # Created by https://www.toptal.com/developers/gitignore/api/windows,visualstudio,c++,cmake
+### Custon ###
+*.ply
 
 ### C++ ###
 # Prerequisites
