@@ -4,17 +4,24 @@ CMAKE_MINIMUM_REQUIRED(VERSION 3.19.0)
 SET( PROJECT_NAME FlipEngine )
 PROJECT(${PROJECT_NAME})
 
-INCLUDE_DIRECTORIES(ext/DXViewer/src) #$<$<CONFIG:DEBUG>:${CMAKE_SOURCE_DIR}/ext>
-LINK_DIRECTORIES($<$<CONFIG:DEBUG>:${CMAKE_SOURCE_DIR}/ext/DXViewer/Debug>)
+# Set configuration types
+Set(CMAKE_CONFIGURATION_TYPES Debug Release)
 
-# Copy DLLS
-FILE(GLOB DLL ext/DXViewer/Debug/DXViewer.dll)
+# Set the include/lib directory
+INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/ext/DXViewer/DXViewer-1.0.0/include)
+LINK_DIRECTORIES(${CMAKE_SOURCE_DIR}/ext/DXViewer/DXViewer-1.0.0/lib)
+
+# Copy DLLs
+FILE(GLOB DLL ${CMAKE_SOURCE_DIR}/ext/DXViewer/DXViewer-1.0.0/bin/*.dll)
 FILE(COPY ${DLL} DESTINATION ${CMAKE_BINARY_DIR})
 
 # Collect source files
-FILE( GLOB SRC src/engine/*.cpp  src/*.cpp)
-FILE( GLOB HDR src/engine/*.h  src/*.h)
+FILE( GLOB SRC ${CMAKE_SOURCE_DIR}/src/engine/*.cpp  ${CMAKE_SOURCE_DIR}/src/*.cpp)
+FILE( GLOB HDR ${CMAKE_SOURCE_DIR}/src/engine/*.h  ${CMAKE_SOURCE_DIR}/src/*.h)
 
 # Link Source files ('WIN32' keyword is used for win32 project)
 ADD_EXECUTABLE( ${PROJECT_NAME} WIN32 ${SRC} ${HDR} )
-TARGET_LINK_LIBRARIES( ${PROJECT_NAME} DXViewer.lib )
+
+# Set 'Additional Dependencies'
+SET(LIB $<$<CONFIG:DEBUG>:DXViewer.lib> $<$<CONFIG:RELEASE>:DXViewerRel.lib>)
+TARGET_LINK_LIBRARIES( ${PROJECT_NAME} ${LIB})
