@@ -81,7 +81,7 @@ void SubFluidSimulation::_outputSurfaceMeshThread(std::vector<vmath::vec3>* part
 
     _logfile.logString(_logfile.getTime() + " COMPLETE    Generate Surface Mesh");
 
-    isomesh2 = isomesh;
+    _isomesh = isomesh;
 
 }
 
@@ -160,68 +160,67 @@ void SubFluidSimulation::IUpdate(double timestep)
 
 vector<Vertex> SubFluidSimulation::IGetVertice()
 {
-    vector<Vertex> vertice;
-    vector<vec3> normal;
+    _vertice.clear();
+    _normal.clear();
 
-    for (int i = 0; i < isomesh2.vertices.size(); i++)
+    for (int i = 0; i < _isomesh.vertices.size(); i++)
     {
         Vertex v;
-        v.pos.x = isomesh2.vertices[i].x;
-        v.pos.y = isomesh2.vertices[i].y;
-        v.pos.z = isomesh2.vertices[i].z;
+        v.pos.x = _isomesh.vertices[i].x;
+        v.pos.y = _isomesh.vertices[i].y;
+        v.pos.z = _isomesh.vertices[i].z;
 
-        normal.push_back(vec3(0.0f, 0.0f, 0.0f));
+        _normal.push_back(vec3(0.0f, 0.0f, 0.0f));
 
-        vertice.push_back(v);
+        _vertice.push_back(v);
     }
 
 
-    for (int i = 0; i < isomesh2.triangles.size(); i++)
+    for (int i = 0; i < _isomesh.triangles.size(); i++)
     {
-        int i0 = isomesh2.triangles[i].tri[0];
-        int i1 = isomesh2.triangles[i].tri[1];
-        int i2 = isomesh2.triangles[i].tri[2];
+        int i0 = _isomesh.triangles[i].tri[0];
+        int i1 = _isomesh.triangles[i].tri[1];
+        int i2 = _isomesh.triangles[i].tri[2];
 
         
-        vec3 v0 = isomesh2.vertices[i0];
-        vec3 v1 = isomesh2.vertices[i1];
-        vec3 v2 = isomesh2.vertices[i2];
+        vec3 v0 = _isomesh.vertices[i0];
+        vec3 v1 = _isomesh.vertices[i1];
+        vec3 v2 = _isomesh.vertices[i2];
 
         vec3 e0 = v1 - v0;
         vec3 e1 = v2 - v0;
         vec3 faceN = cross(e0, e1);
 
-        normal[i0] += faceN;
-        normal[i1] += faceN;
-        normal[i2] += faceN;
+        _normal[i0] += faceN;
+        _normal[i1] += faceN;
+        _normal[i2] += faceN;
     }
 
 
-    for (int i = 0; i < isomesh2.vertices.size(); i++)
+    for (int i = 0; i < _isomesh.vertices.size(); i++)
     {
-        vec3 nor = normalize(normal[i]);
-        vertice[i].nor.x = nor.x;
-        vertice[i].nor.y = nor.y;
-        vertice[i].nor.z = nor.z;
+        vec3 nor = normalize(_normal[i]);
+        _vertice[i].nor.x = nor.x;
+        _vertice[i].nor.y = nor.y;
+        _vertice[i].nor.z = nor.z;
     }
 
-    return vertice;
+    return _vertice;
 }
 
 vector<unsigned int> SubFluidSimulation::IGetIndice()
 {
-    vector<unsigned int> indice;
-    indice.clear();
+    _indice.clear();
 
-    for (int i = 0; i < isomesh2.triangles.size(); i++)
+    for (int i = 0; i < _isomesh.triangles.size(); i++)
     {
         for (int j = 0; j < 3; j++)
         {
-            unsigned int a = static_cast<unsigned int>(isomesh2.triangles[i].tri[j]);
-            indice.push_back(a);
+            unsigned int a = static_cast<unsigned int>(_isomesh.triangles[i].tri[j]);
+            _indice.push_back(a);
         }
         //std::cout << "\n";
     }
 
-    return indice;
+    return _indice;
 }

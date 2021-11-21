@@ -7,7 +7,11 @@
 class SubFluidSimulation : public FluidSimulation, public ISimulation
 {
 private:
-    TriangleMesh isomesh2;
+    TriangleMesh _isomesh;
+    std::vector<Vertex> _vertice;
+    std::vector<vmath::vec3> _normal;
+    std::vector<unsigned int> _indice;
+
     void _outputSurfaceMeshThread(std::vector<vmath::vec3>* particles, MeshLevelSet* solidSDF) override;
 
     // The ones originally in main.cpp
