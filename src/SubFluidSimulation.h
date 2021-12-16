@@ -6,28 +6,52 @@
 
 class SubFluidSimulation : public FluidSimulation, public ISimulation
 {
+public:
+	SubFluidSimulation(int isize, int jsize, int ksize, double dx, double timeStep);
+	~SubFluidSimulation() override;
+
+	void initialize() override;
+
+#pragma region Implementation
+	// ################################## Implementation ####################################
+	// Simulation methods
+	void iUpdate() override;
+	void iResetSimulationState(std::vector<ConstantBuffer>& constantBuffer) override;
+
+	// Mesh methods
+	std::vector<Vertex>& iGetVertice() override;
+	std::vector<unsigned int>& iGetIndice() override;
+	DirectX::XMINT2 iGetObjectCount() override;
+
+	// DirectX methods
+	void iCreateObjectParticle(std::vector<ConstantBuffer>& constantBuffer) override;
+	void iUpdateConstantBuffer(std::vector<ConstantBuffer>& constantBuffer, int i) override;
+	void iDraw(Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList>& mCommandList, int size, UINT indexCount, int i) override;
+	void iSetDXApp(DX12App* dxApp) override;
+
+	// WndProc methods
+	void iWMCreate(HWND hwnd, HINSTANCE hInstance) override;
+	void iWMCommand(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam, HINSTANCE hInstance) override;
+	void iWMHScroll(HWND hwnd, WPARAM wParam, LPARAM lParam, HINSTANCE hInstance) override;
+	void iWMTimer(HWND hwnd) override;
+	void iWMDestory(HWND hwnd) override;
+
+	// Win32 methods
+	bool iGetUpdateFlag() override;
+	// #######################################################################################
+#pragma endregion
+
 private:
     TriangleMesh _isomesh;
     std::vector<Vertex> _vertice;
     std::vector<vmath::vec3> _normal;
     std::vector<unsigned int> _indice;
+	double _timeStep = 0.0;
 
     void _outputSurfaceMeshThread(std::vector<vmath::vec3>* particles, MeshLevelSet* solidSDF) override;
 
     // The ones originally in main.cpp
     void writeSurfaceMesh(int frameno);
     TriangleMesh getTriangleMeshFromAABB(AABB bbox);
-
-
-public:
-    SubFluidSimulation(int isize, int jsize, int ksize, double dx);
-    ~SubFluidSimulation();
-
-    void initialize() override;
-
-    // Functions for virtual class
-    void IUpdate(double timestep) override;
-    std::vector<Vertex> IGetVertice() override;
-    std::vector<unsigned int> IGetIndice() override;
 };
 

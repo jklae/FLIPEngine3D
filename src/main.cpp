@@ -14,16 +14,17 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, in
     double dx = 0.125;
     double timestep = 1.0 / 30.0;
 
-    SubFluidSimulation* fluidsim = new SubFluidSimulation(isize, jsize, ksize, dx);
+    SubFluidSimulation* fluidsim = new SubFluidSimulation(isize, jsize, ksize, dx, timestep);
     fluidsim->initialize();
 
+    // DirectX init
     DX12App* dxapp = new DX12App();
-    dxapp->SetSimulation(fluidsim, timestep);
+    dxapp->setProjectionType(PROJ::ORTHOGRAPHIC);
+    dxapp->setBackgroundColor(DirectX::Colors::LightSlateGray);
 
-    Win32App winApp(800, 600);
-    winApp.Initialize(hInstance);
+    // Window init
+    Win32App winApp(800, 800);
+    winApp.initialize(hInstance, dxapp, fluidsim);
 
-    winApp.InitDirectX(dxapp);
-
-    return winApp.Run();
+    return winApp.run();
 }

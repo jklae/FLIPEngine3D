@@ -1,11 +1,13 @@
 #include "SubFluidSimulation.h"
 
+using Microsoft::WRL::ComPtr;
+using namespace DirectX;
 using namespace std;
 using namespace vmath;
-using namespace DirectX;
+using namespace DXViewer::util;
 
-SubFluidSimulation::SubFluidSimulation(int isize, int jsize, int ksize, double dx)
-    :FluidSimulation(isize, jsize, ksize, dx)
+SubFluidSimulation::SubFluidSimulation(int isize, int jsize, int ksize, double dx, double timeStep)
+    :FluidSimulation(isize, jsize, ksize, dx), _timeStep(timeStep)
 {
 }
 
@@ -149,16 +151,23 @@ void SubFluidSimulation::initialize()
 }
 
 
-
-
-void SubFluidSimulation::IUpdate(double timestep)
+#pragma region Implementation
+// ################################## Implementation ####################################
+// Simulation methods
+void SubFluidSimulation::iUpdate()
 {
     int frameno = getCurrentFrame();
-    FluidSimulation::update(timestep);
+    FluidSimulation::update(_timeStep);
     writeSurfaceMesh(frameno);
 }
 
-vector<Vertex> SubFluidSimulation::IGetVertice()
+void SubFluidSimulation::iResetSimulationState(vector<ConstantBuffer>& constantBuffer)
+{
+}
+
+
+// Mesh methods
+vector<Vertex>& SubFluidSimulation::iGetVertice()
 {
     _vertice.clear();
     _normal.clear();
@@ -208,7 +217,7 @@ vector<Vertex> SubFluidSimulation::IGetVertice()
     return _vertice;
 }
 
-vector<unsigned int> SubFluidSimulation::IGetIndice()
+vector<unsigned int>& SubFluidSimulation::iGetIndice()
 {
     _indice.clear();
 
@@ -224,3 +233,66 @@ vector<unsigned int> SubFluidSimulation::IGetIndice()
 
     return _indice;
 }
+
+XMINT2 SubFluidSimulation::iGetObjectCount()
+{
+    return { 40, 40 };
+}
+
+
+// DirectX methods
+void SubFluidSimulation::iCreateObjectParticle(vector<ConstantBuffer>& constantBuffer)
+{
+    struct ConstantBuffer objectCB;
+    // Multiply by a specific value to make a stripe
+    objectCB.world = transformMatrix(0.0f, 0.0f, 0.0f, 1.0f);
+    objectCB.worldViewProj = transformMatrix(0.0f, 0.0f, 0.0f);
+    objectCB.color = XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f);
+
+    constantBuffer.push_back(objectCB);
+}
+
+void SubFluidSimulation::iUpdateConstantBuffer(vector<ConstantBuffer>& constantBuffer, int i)
+{
+}
+
+void SubFluidSimulation::iDraw(ComPtr<ID3D12GraphicsCommandList>& mCommandList, int size, UINT indexCount, int i)
+{
+    mCommandList->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+    mCommandList->DrawIndexedInstanced(_indice.size(), 1, 0, 0, 0);
+}
+
+void SubFluidSimulation::iSetDXApp(DX12App* dxApp)
+{
+}
+
+
+// WndProc methods
+void SubFluidSimulation::iWMCreate(HWND hwnd, HINSTANCE hInstance)
+{
+}
+
+void SubFluidSimulation::iWMTimer(HWND hwnd)
+{
+}
+
+void SubFluidSimulation::iWMDestory(HWND hwnd)
+{
+}
+
+void SubFluidSimulation::iWMHScroll(HWND hwnd, WPARAM wParam, LPARAM lParam, HINSTANCE hInstance)
+{
+}
+
+void SubFluidSimulation::iWMCommand(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam, HINSTANCE hInstance)
+{
+}
+
+
+// Win32 methods
+bool SubFluidSimulation::iGetUpdateFlag()
+{
+    return true;
+}
+// #######################################################################################
+#pragma endregion
