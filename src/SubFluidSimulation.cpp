@@ -236,7 +236,7 @@ vector<unsigned int>& SubFluidSimulation::iGetIndice()
 
 XMINT2 SubFluidSimulation::iGetObjectCount()
 {
-    return { 40, 40 };
+    return { 5, 5 };
 }
 
 
