@@ -234,14 +234,19 @@ vector<unsigned int>& SubFluidSimulation::iGetIndice()
     return _indice;
 }
 
-XMINT2 SubFluidSimulation::iGetObjectCount()
+UINT SubFluidSimulation::iGetVertexBufferSize()
 {
-    return { 5, 5 };
+    return 1000000;
+}
+
+UINT SubFluidSimulation::iGetIndexBufferSize()
+{
+    return 1000000;
 }
 
 
 // DirectX methods
-void SubFluidSimulation::iCreateObjectParticle(vector<ConstantBuffer>& constantBuffer)
+void SubFluidSimulation::iCreateObject(vector<ConstantBuffer>& constantBuffer)
 {
     struct ConstantBuffer objectCB;
     // Multiply by a specific value to make a stripe
@@ -264,6 +269,16 @@ void SubFluidSimulation::iDraw(ComPtr<ID3D12GraphicsCommandList>& mCommandList, 
 
 void SubFluidSimulation::iSetDXApp(DX12App* dxApp)
 {
+}
+
+UINT SubFluidSimulation::iGetConstantBufferSize()
+{
+    return 1;
+}
+
+DirectX::XMINT2 SubFluidSimulation::iGetDomainSize()
+{
+    return { 5, 5 };
 }
 
 

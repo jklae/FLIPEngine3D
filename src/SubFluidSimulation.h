@@ -21,13 +21,16 @@ public:
 	// Mesh methods
 	std::vector<Vertex>& iGetVertice() override;
 	std::vector<unsigned int>& iGetIndice() override;
-	DirectX::XMINT2 iGetObjectCount() override;
+	UINT iGetVertexBufferSize() override;
+	UINT iGetIndexBufferSize() override;
 
 	// DirectX methods
-	void iCreateObjectParticle(std::vector<ConstantBuffer>& constantBuffer) override;
+	void iCreateObject(std::vector<ConstantBuffer>& constantBuffer) override;
 	void iUpdateConstantBuffer(std::vector<ConstantBuffer>& constantBuffer, int i) override;
 	void iDraw(Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList>& mCommandList, int size, UINT indexCount, int i) override;
 	void iSetDXApp(DX12App* dxApp) override;
+	UINT iGetConstantBufferSize() override;
+	DirectX::XMINT2 iGetDomainSize() override;
 
 	// WndProc methods
 	void iWMCreate(HWND hwnd, HINSTANCE hInstance) override;
