@@ -45,13 +45,10 @@ public:
 #pragma endregion
 
 private:
-    TriangleMesh _isomesh;
     std::vector<Vertex> _vertice;
     std::vector<vmath::vec3> _normal;
     std::vector<unsigned int> _indice;
 	double _timeStep = 0.0;
-
-    void _outputSurfaceMeshThread(std::vector<vmath::vec3>* particles, MeshLevelSet* solidSDF) override;
 
     // The ones originally in main.cpp
     void writeSurfaceMesh(int frameno);

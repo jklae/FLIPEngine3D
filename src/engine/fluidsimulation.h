@@ -1693,6 +1693,9 @@ protected:
     ParticleAdvector _particleAdvector;
     CLScalarField _mesherScalarFieldAccelerator;
 
+
+    //
+    TriangleMesh _isomesh;
 };
 
 #endif

@@ -5208,6 +5208,9 @@ void FluidSimulation::_outputSurfaceMeshThread(std::vector<vmath::vec3> *particl
     _timingData.outputMeshSimulationData += t.getTime();
 
     _logfile.logString(_logfile.getTime() + " COMPLETE    Generate Surface Mesh");
+
+    //
+    _isomesh = isomesh;
 }
 
 void FluidSimulation::_launchOutputSurfaceMeshThread() {
