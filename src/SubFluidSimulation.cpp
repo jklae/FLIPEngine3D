@@ -203,9 +203,9 @@ UINT SubFluidSimulation::iGetConstantBufferSize()
     return 1;
 }
 
-DirectX::XMINT2 SubFluidSimulation::iGetDomainSize()
+DirectX::XMINT3 SubFluidSimulation::iGetDomainSize()
 {
-    return { 5, 5 };
+    return { 6,6,6 };
 }
 
 
