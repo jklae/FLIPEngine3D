@@ -205,7 +205,11 @@ UINT SubFluidSimulation::iGetConstantBufferSize()
 
 DirectX::XMINT3 SubFluidSimulation::iGetDomainSize()
 {
-    return { 6,6,6 };
+    return { 
+        static_cast<int>(_isize * 0.15f), 
+        static_cast<int>(_jsize * 0.15f), 
+        static_cast<int>(_ksize * 0.15f) 
+    };
 }
 
 
