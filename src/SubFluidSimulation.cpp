@@ -203,7 +203,7 @@ UINT SubFluidSimulation::iGetConstantBufferSize()
     return 1;
 }
 
-DirectX::XMINT3 SubFluidSimulation::iGetDomainSize()
+DirectX::XMINT3 SubFluidSimulation::iGetObjectCount()
 {
     return { 
         static_cast<int>(_isize * 0.15f), 
