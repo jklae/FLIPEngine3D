@@ -23,6 +23,9 @@ public:
 	std::vector<unsigned int>& iGetIndice() override;
 	UINT iGetVertexBufferSize() override;
 	UINT iGetIndexBufferSize() override;
+	DirectX::XMINT3 iGetObjectCount() override;
+	DirectX::XMFLOAT3 iGetObjectSize() override;
+	DirectX::XMFLOAT3 iGetObjectPositionOffset() override;
 
 	// DirectX methods
 	void iCreateObject(std::vector<ConstantBuffer>& constantBuffer) override;
@@ -30,7 +33,6 @@ public:
 	void iDraw(Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList>& mCommandList, int size, UINT indexCount, int i) override;
 	void iSetDXApp(DX12App* dxApp) override;
 	UINT iGetConstantBufferSize() override;
-	DirectX::XMINT3 iGetObjectCount() override;
 
 	// WndProc methods
 	void iWMCreate(HWND hwnd, HINSTANCE hInstance) override;

@@ -5,6 +5,7 @@ using namespace DirectX;
 using namespace std;
 using namespace vmath;
 using namespace DXViewer::util;
+using namespace DXViewer::xmfloat3;
 
 SubFluidSimulation::SubFluidSimulation(int isize, int jsize, int ksize, double dx, double timeStep)
     :FluidSimulation(isize, jsize, ksize, dx), _timeStep(timeStep)
@@ -171,6 +172,23 @@ UINT SubFluidSimulation::iGetIndexBufferSize()
     return 1000000;
 }
 
+DirectX::XMINT3 SubFluidSimulation::iGetObjectCount()
+{
+    return { 1, 1, 1 };
+}
+
+DirectX::XMFLOAT3 SubFluidSimulation::iGetObjectSize()
+{
+    return XMFLOAT3(
+        0.0f, 0.0f, 0.0f
+    );
+}
+
+DirectX::XMFLOAT3 SubFluidSimulation::iGetObjectPositionOffset()
+{
+    return DirectX::XMFLOAT3(1.5f, 1.5f, 1.5f);
+}
+
 
 // DirectX methods
 void SubFluidSimulation::iCreateObject(vector<ConstantBuffer>& constantBuffer)
@@ -201,15 +219,6 @@ void SubFluidSimulation::iSetDXApp(DX12App* dxApp)
 UINT SubFluidSimulation::iGetConstantBufferSize()
 {
     return 1;
-}
-
-DirectX::XMINT3 SubFluidSimulation::iGetObjectCount()
-{
-    return { 
-        static_cast<int>(_isize * 0.15f), 
-        static_cast<int>(_jsize * 0.15f), 
-        static_cast<int>(_ksize * 0.15f) 
-    };
 }
 
 
