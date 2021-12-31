@@ -21,14 +21,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, in
     // DirectX init
     DX12App* dxapp = new DX12App();
     int maxSize = max_element(DirectX::XMINT3(isize, jsize, ksize));
-    //dxapp->setCameraProperties(
-    //    PROJ::PERSPECTIVE,
-    //    0.0f, maxSize * 0.25f,
-    //    0.0f, 0.0f);//-1.0f, -0.5f);
     dxapp->setCameraProperties(
+        PROJ::PERSPECTIVE,
+        0.0f, maxSize * 0.25f,
+        -0.3f, -0.3f);
+    /*dxapp->setCameraProperties(
         PROJ::ORTHOGRAPHIC,
         maxSize * 0.0002f, maxSize * 0.2f,
-        0.0f, 0.0f);
+        -0.3f, -0.3f);*/
     dxapp->setBackgroundColor(DirectX::Colors::LightSlateGray);
 
     // Window init
