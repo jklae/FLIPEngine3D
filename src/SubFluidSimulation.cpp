@@ -186,7 +186,7 @@ DirectX::XMFLOAT3 SubFluidSimulation::iGetObjectSize()
 
 DirectX::XMFLOAT3 SubFluidSimulation::iGetObjectPositionOffset()
 {
-    return DirectX::XMFLOAT3(1.5f, 1.5f, 1.5f);
+    return DirectX::XMFLOAT3(_isize * 0.06f, _jsize * 0.06f, _ksize * 0.06f);
 }
 
 
