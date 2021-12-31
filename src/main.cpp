@@ -19,7 +19,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, in
 
     // DirectX init
     DX12App* dxapp = new DX12App();
-    dxapp->setProjectionType(PROJ::ORTHOGRAPHIC);
+    dxapp->setCameraProperties(PROJ::PERSPECTIVE, 0.0f, 6.0f, 0.0f, 0.0f);
     dxapp->setBackgroundColor(DirectX::Colors::LightSlateGray);
 
     // Window init
