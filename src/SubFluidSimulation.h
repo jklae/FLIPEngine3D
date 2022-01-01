@@ -47,6 +47,15 @@ public:
 #pragma endregion
 
 private:
+	enum class _COM
+	{
+		PLAY, STOP, NEXTSTEP,
+		TIME_TEXT, FRAME_TEXT
+	};
+
+	DX12App* _dxapp;
+	bool _updateFlag = true;
+
     std::vector<Vertex> _vertice;
     std::vector<vmath::vec3> _normal;
     std::vector<unsigned int> _indice;

@@ -86,11 +86,12 @@ void SubFluidSimulation::iUpdate()
 {
     int frameno = getCurrentFrame();
     FluidSimulation::update(_timeStep);
-    writeSurfaceMesh(frameno);
+    //writeSurfaceMesh(frameno);
 }
 
 void SubFluidSimulation::iResetSimulationState(vector<ConstantBuffer>& constantBuffer)
 {
+    //initialize();
 }
 
 
@@ -215,6 +216,7 @@ void SubFluidSimulation::iDraw(ComPtr<ID3D12GraphicsCommandList>& mCommandList, 
 
 void SubFluidSimulation::iSetDXApp(DX12App* dxApp)
 {
+    _dxapp = dxApp;
 }
 
 UINT SubFluidSimulation::iGetConstantBufferSize()
@@ -226,6 +228,12 @@ UINT SubFluidSimulation::iGetConstantBufferSize()
 // WndProc methods
 void SubFluidSimulation::iWMCreate(HWND hwnd, HINSTANCE hInstance)
 {
+    CreateWindow(L"button", _updateFlag ? L"¡«" : L"¢º", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
+        65, 290, 50, 25, hwnd, reinterpret_cast<HMENU>(_COM::PLAY), hInstance, NULL);
+    CreateWindow(L"button", L"¡á", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
+        115, 290, 50, 25, hwnd, reinterpret_cast<HMENU>(_COM::STOP), hInstance, NULL);
+    CreateWindow(L"button", L"¢ºl", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
+        165, 290, 50, 25, hwnd, reinterpret_cast<HMENU>(_COM::NEXTSTEP), hInstance, NULL);
 }
 
 void SubFluidSimulation::iWMTimer(HWND hwnd)
@@ -242,13 +250,42 @@ void SubFluidSimulation::iWMHScroll(HWND hwnd, WPARAM wParam, LPARAM lParam, HIN
 
 void SubFluidSimulation::iWMCommand(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam, HINSTANCE hInstance)
 {
+    switch (LOWORD(wParam))
+    {
+        // ### Execution buttons ###
+        case static_cast<int>(_COM::PLAY) :
+        {
+            _updateFlag = !_updateFlag;
+            SetDlgItemText(hwnd, static_cast<int>(_COM::PLAY), _updateFlag ? L"¡«" : L"¢º");
+
+            EnableWindow(GetDlgItem(hwnd, static_cast<int>(_COM::STOP)), true);
+            EnableWindow(GetDlgItem(hwnd, static_cast<int>(_COM::NEXTSTEP)), !_updateFlag);
+        }
+        break;
+        case static_cast<int>(_COM::STOP) :
+        {
+            _dxapp->resetSimulationState();
+            _dxapp->update();
+            _dxapp->draw();
+        }
+        break;
+        case static_cast<int>(_COM::NEXTSTEP) :
+        {
+            if (!_updateFlag)
+            {
+                _dxapp->update();
+                _dxapp->draw();
+            }
+        }
+        break;
+    }
 }
 
 
 // Win32 methods
 bool SubFluidSimulation::iGetUpdateFlag()
 {
-    return true;
+    return _updateFlag;
 }
 // #######################################################################################
 #pragma endregion
