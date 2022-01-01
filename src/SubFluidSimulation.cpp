@@ -197,7 +197,8 @@ void SubFluidSimulation::iCreateObject(vector<ConstantBuffer>& constantBuffer)
     // Multiply by a specific value to make a stripe
     objectCB.world = transformMatrix(0.0f, 0.0f, 0.0f, 1.0f);
     objectCB.worldViewProj = transformMatrix(0.0f, 0.0f, 0.0f);
-    objectCB.color = XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f);
+    objectCB.transInvWorld = transformMatrix(0.0f, 0.0f, 0.0f);
+    objectCB.color = XMFLOAT4(0.1f, 0.25f, 0.3f, 1.0f);
 
     constantBuffer.push_back(objectCB);
 }

@@ -9,9 +9,9 @@ using namespace DXViewer::xmint3;
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, int showCmd)
 {
-    int isize = 60;
-    int jsize = 60;
-    int ksize = 60;
+    int isize = 30;
+    int jsize = 30;
+    int ksize = 30;
     double dx = 0.125;
     double timestep = 1.0 / 30.0;
 
