@@ -224,6 +224,11 @@ UINT SubFluidSimulation::iGetConstantBufferSize()
     return 1;
 }
 
+bool SubFluidSimulation::iIsUpdated()
+{
+    return _updateFlag;
+}
+
 
 // WndProc methods
 void SubFluidSimulation::iWMCreate(HWND hwnd, HINSTANCE hInstance)
@@ -271,6 +276,7 @@ void SubFluidSimulation::iWMCommand(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
         break;
         case static_cast<int>(_COM::NEXTSTEP) :
         {
+            iUpdate();
             _dxapp->update();
             _dxapp->draw();
         }
@@ -278,11 +284,5 @@ void SubFluidSimulation::iWMCommand(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
     }
 }
 
-
-// Win32 methods
-bool SubFluidSimulation::iGetUpdateFlag()
-{
-    return _updateFlag;
-}
 // #######################################################################################
 #pragma endregion

@@ -33,6 +33,7 @@ public:
 	void iDraw(Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList>& mCommandList, int size, UINT indexCount, int i) override;
 	void iSetDXApp(DX12App* dxApp) override;
 	UINT iGetConstantBufferSize() override;
+	bool iIsUpdated() override;
 
 	// WndProc methods
 	void iWMCreate(HWND hwnd, HINSTANCE hInstance) override;
@@ -40,9 +41,6 @@ public:
 	void iWMHScroll(HWND hwnd, WPARAM wParam, LPARAM lParam, HINSTANCE hInstance) override;
 	void iWMTimer(HWND hwnd) override;
 	void iWMDestory(HWND hwnd) override;
-
-	// Win32 methods
-	bool iGetUpdateFlag() override;
 	// #######################################################################################
 #pragma endregion
 
