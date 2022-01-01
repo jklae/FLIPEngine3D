@@ -1,4 +1,4 @@
-#include "SubFluidSimulation.h"
+#include "FluidManager.h"
 
 using Microsoft::WRL::ComPtr;
 using namespace DirectX;
@@ -7,16 +7,16 @@ using namespace vmath;
 using namespace DXViewer::util;
 using namespace DXViewer::xmfloat3;
 
-SubFluidSimulation::SubFluidSimulation(int isize, int jsize, int ksize, double dx, double timeStep)
+FluidManager::FluidManager(int isize, int jsize, int ksize, double dx, double timeStep)
     :FluidSimulation(isize, jsize, ksize, dx), _timeStep(timeStep)
 {
 }
 
-SubFluidSimulation::~SubFluidSimulation()
+FluidManager::~FluidManager()
 {
 }
 
-TriangleMesh SubFluidSimulation::getTriangleMeshFromAABB(AABB bbox) {
+TriangleMesh FluidManager::getTriangleMeshFromAABB(AABB bbox) {
     vmath::vec3 p = bbox.position;
     std::vector<vmath::vec3> verts{
         vmath::vec3(p.x, p.y, p.z),
@@ -43,7 +43,7 @@ TriangleMesh SubFluidSimulation::getTriangleMeshFromAABB(AABB bbox) {
 }
 
 
-void SubFluidSimulation::initialize()
+void FluidManager::initialize()
 {
     setSurfaceSubdivisionLevel(2);
 
@@ -69,19 +69,19 @@ void SubFluidSimulation::initialize()
 #pragma region Implementation
 // ################################## Implementation ####################################
 // Simulation methods
-void SubFluidSimulation::iUpdate()
+void FluidManager::iUpdate()
 {
     int frameno = getCurrentFrame();
     FluidSimulation::update(_timeStep);
 }
 
-void SubFluidSimulation::iResetSimulationState(vector<ConstantBuffer>& constantBuffer)
+void FluidManager::iResetSimulationState(vector<ConstantBuffer>& constantBuffer)
 {
 }
 
 
 // Mesh methods
-vector<Vertex>& SubFluidSimulation::iGetVertice()
+vector<Vertex>& FluidManager::iGetVertice()
 {
     _vertice.clear();
     _normal.clear();
@@ -131,7 +131,7 @@ vector<Vertex>& SubFluidSimulation::iGetVertice()
     return _vertice;
 }
 
-vector<unsigned int>& SubFluidSimulation::iGetIndice()
+vector<unsigned int>& FluidManager::iGetIndice()
 {
     _indice.clear();
 
@@ -148,36 +148,36 @@ vector<unsigned int>& SubFluidSimulation::iGetIndice()
     return _indice;
 }
 
-UINT SubFluidSimulation::iGetVertexBufferSize()
+UINT FluidManager::iGetVertexBufferSize()
 {
     return 1000000;
 }
 
-UINT SubFluidSimulation::iGetIndexBufferSize()
+UINT FluidManager::iGetIndexBufferSize()
 {
     return 1000000;
 }
 
-DirectX::XMINT3 SubFluidSimulation::iGetObjectCount()
+DirectX::XMINT3 FluidManager::iGetObjectCount()
 {
     return { 1, 1, 1 };
 }
 
-DirectX::XMFLOAT3 SubFluidSimulation::iGetObjectSize()
+DirectX::XMFLOAT3 FluidManager::iGetObjectSize()
 {
     return XMFLOAT3(
         0.0f, 0.0f, 0.0f
     );
 }
 
-DirectX::XMFLOAT3 SubFluidSimulation::iGetObjectPositionOffset()
+DirectX::XMFLOAT3 FluidManager::iGetObjectPositionOffset()
 {
     return DirectX::XMFLOAT3(_isize * 0.06f, _jsize * 0.06f, _ksize * 0.06f);
 }
 
 
 // DirectX methods
-void SubFluidSimulation::iCreateObject(vector<ConstantBuffer>& constantBuffer)
+void FluidManager::iCreateObject(vector<ConstantBuffer>& constantBuffer)
 {
     struct ConstantBuffer objectCB;
     // Multiply by a specific value to make a stripe
@@ -189,34 +189,34 @@ void SubFluidSimulation::iCreateObject(vector<ConstantBuffer>& constantBuffer)
     constantBuffer.push_back(objectCB);
 }
 
-void SubFluidSimulation::iUpdateConstantBuffer(vector<ConstantBuffer>& constantBuffer, int i)
+void FluidManager::iUpdateConstantBuffer(vector<ConstantBuffer>& constantBuffer, int i)
 {
 }
 
-void SubFluidSimulation::iDraw(ComPtr<ID3D12GraphicsCommandList>& mCommandList, int size, UINT indexCount, int i)
+void FluidManager::iDraw(ComPtr<ID3D12GraphicsCommandList>& mCommandList, int size, UINT indexCount, int i)
 {
     mCommandList->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
     mCommandList->DrawIndexedInstanced(_indice.size(), 1, 0, 0, 0);
 }
 
-void SubFluidSimulation::iSetDXApp(DX12App* dxApp)
+void FluidManager::iSetDXApp(DX12App* dxApp)
 {
     _dxapp = dxApp;
 }
 
-UINT SubFluidSimulation::iGetConstantBufferSize()
+UINT FluidManager::iGetConstantBufferSize()
 {
     return 1;
 }
 
-bool SubFluidSimulation::iIsUpdated()
+bool FluidManager::iIsUpdated()
 {
     return _updateFlag;
 }
 
 
 // WndProc methods
-void SubFluidSimulation::iWMCreate(HWND hwnd, HINSTANCE hInstance)
+void FluidManager::iWMCreate(HWND hwnd, HINSTANCE hInstance)
 {
     CreateWindow(L"button", L"Respawn", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
         85, 250, 110, 30, hwnd, reinterpret_cast<HMENU>(_COM::RESPAWN), hInstance, NULL);
@@ -228,19 +228,19 @@ void SubFluidSimulation::iWMCreate(HWND hwnd, HINSTANCE hInstance)
         165, 290, 50, 25, hwnd, reinterpret_cast<HMENU>(_COM::NEXTSTEP), hInstance, NULL);
 }
 
-void SubFluidSimulation::iWMTimer(HWND hwnd)
+void FluidManager::iWMTimer(HWND hwnd)
 {
 }
 
-void SubFluidSimulation::iWMDestory(HWND hwnd)
+void FluidManager::iWMDestory(HWND hwnd)
 {
 }
 
-void SubFluidSimulation::iWMHScroll(HWND hwnd, WPARAM wParam, LPARAM lParam, HINSTANCE hInstance)
+void FluidManager::iWMHScroll(HWND hwnd, WPARAM wParam, LPARAM lParam, HINSTANCE hInstance)
 {
 }
 
-void SubFluidSimulation::iWMCommand(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam, HINSTANCE hInstance)
+void FluidManager::iWMCommand(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam, HINSTANCE hInstance)
 {
     switch (LOWORD(wParam))
     {

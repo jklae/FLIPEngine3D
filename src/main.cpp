@@ -3,7 +3,7 @@
 #pragma comment(linker, "/entry:WinMainCRTStartup /subsystem:console")
 #endif
 
-#include "SubFluidSimulation.h" // This includes Win32App.h
+#include "FluidManager.h" // This includes Win32App.h
 
 using namespace DXViewer::xmint3;
 
@@ -15,7 +15,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, in
     double dx = 0.125;
     double timestep = 1.0 / 30.0;
 
-    SubFluidSimulation* fluidsim = new SubFluidSimulation(isize, jsize, ksize, dx, timestep);
+    FluidManager* fluidsim = new FluidManager(isize, jsize, ksize, dx, timestep);
     fluidsim->initialize();
 
     // DirectX init

@@ -4,11 +4,11 @@
 #include "engine/stopwatch.h"
 #include "Win32App.h" // This includes ISimulation.h
 
-class SubFluidSimulation : public FluidSimulation, public ISimulation
+class FluidManager : public FluidSimulation, public ISimulation
 {
 public:
-	SubFluidSimulation(int isize, int jsize, int ksize, double dx, double timeStep);
-	~SubFluidSimulation() override;
+	FluidManager(int isize, int jsize, int ksize, double dx, double timeStep);
+	~FluidManager() override;
 
 	void initialize() override;
 
