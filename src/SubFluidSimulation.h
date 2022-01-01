@@ -47,7 +47,7 @@ public:
 private:
 	enum class _COM
 	{
-		PLAY, STOP, NEXTSTEP,
+		PLAY, STOP, NEXTSTEP, RESPAWN,
 		TIME_TEXT, FRAME_TEXT
 	};
 

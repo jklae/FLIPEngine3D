@@ -91,7 +91,6 @@ void SubFluidSimulation::iUpdate()
 
 void SubFluidSimulation::iResetSimulationState(vector<ConstantBuffer>& constantBuffer)
 {
-    //initialize();
 }
 
 
@@ -233,6 +232,8 @@ bool SubFluidSimulation::iIsUpdated()
 // WndProc methods
 void SubFluidSimulation::iWMCreate(HWND hwnd, HINSTANCE hInstance)
 {
+    CreateWindow(L"button", L"Respawn", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
+        85, 250, 110, 30, hwnd, reinterpret_cast<HMENU>(_COM::RESPAWN), hInstance, NULL);
     CreateWindow(L"button", _updateFlag ? L"бл" : L"в║", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
         65, 290, 50, 25, hwnd, reinterpret_cast<HMENU>(_COM::PLAY), hInstance, NULL);
     CreateWindow(L"button", L"бс", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
@@ -279,6 +280,16 @@ void SubFluidSimulation::iWMCommand(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
             iUpdate();
             _dxapp->update();
             _dxapp->draw();
+        }
+        break;
+        case static_cast<int>(_COM::RESPAWN) :
+        {
+            initialize();
+            iUpdate();
+            _dxapp->update();
+            _dxapp->draw();
+
+            EnableWindow(GetDlgItem(hwnd, static_cast<int>(_COM::RESPAWN)), false);
         }
         break;
     }
