@@ -271,11 +271,8 @@ void SubFluidSimulation::iWMCommand(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
         break;
         case static_cast<int>(_COM::NEXTSTEP) :
         {
-            if (!_updateFlag)
-            {
-                _dxapp->update();
-                _dxapp->draw();
-            }
+            _dxapp->update();
+            _dxapp->draw();
         }
         break;
     }
