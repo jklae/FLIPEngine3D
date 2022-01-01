@@ -16,19 +16,6 @@ SubFluidSimulation::~SubFluidSimulation()
 {
 }
 
-void SubFluidSimulation::writeSurfaceMesh(int frameno) {
-    std::ostringstream ss;
-    ss << frameno;
-    std::string frameString = ss.str();
-    //frameString.insert(frameString.begin(), 6 - frameString.size(), '0');
-    std::string filepath = "ply/fluid_" + frameString + ".ply";
-
-    std::vector<char>* data = getSurfaceData();
-    std::ofstream ply(filepath.c_str(), std::ios::out | std::ios::binary);
-    ply.write(data->data(), data->size());
-    ply.close();
-}
-
 TriangleMesh SubFluidSimulation::getTriangleMeshFromAABB(AABB bbox) {
     vmath::vec3 p = bbox.position;
     std::vector<vmath::vec3> verts{
@@ -86,7 +73,6 @@ void SubFluidSimulation::iUpdate()
 {
     int frameno = getCurrentFrame();
     FluidSimulation::update(_timeStep);
-    //writeSurfaceMesh(frameno);
 }
 
 void SubFluidSimulation::iResetSimulationState(vector<ConstantBuffer>& constantBuffer)

@@ -59,8 +59,6 @@ private:
     std::vector<unsigned int> _indice;
 	double _timeStep = 0.0;
 
-    // The ones originally in main.cpp
-    void writeSurfaceMesh(int frameno);
     TriangleMesh getTriangleMeshFromAABB(AABB bbox);
 };
 
