@@ -2540,6 +2540,11 @@ void FluidSimulation::loadDiffuseParticleData(FluidSimulationDiffuseParticleData
     _isDiffuseParticleLoadPending = true;
 }
 
+TriangleMesh& FluidSimulation::getIsomesh()
+{
+    return _isomesh;
+}
+
 
 /********************************************************************************
     Initializing the Fluid Simulator

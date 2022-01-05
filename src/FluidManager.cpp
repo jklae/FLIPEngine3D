@@ -8,12 +8,14 @@ using namespace DXViewer::util;
 using namespace DXViewer::xmfloat3;
 
 FluidManager::FluidManager(int isize, int jsize, int ksize, double dx, double timeStep)
-    :FluidSimulation(isize, jsize, ksize, dx), _timeStep(timeStep)
+    :_isize(isize), _jsize(jsize), _ksize(ksize), _dx(dx), _timeStep(timeStep)
 {
+    _fluidsim = new FluidSimulation(_isize, _jsize, _ksize, _dx);
 }
 
 FluidManager::~FluidManager()
 {
+    delete _fluidsim;
 }
 
 TriangleMesh FluidManager::getTriangleMeshFromAABB(AABB bbox) {
@@ -45,10 +47,12 @@ TriangleMesh FluidManager::getTriangleMeshFromAABB(AABB bbox) {
 
 void FluidManager::initialize()
 {
-    setSurfaceSubdivisionLevel(2);
+    assert(fluidsim != nullptr);
+
+    _fluidsim->setSurfaceSubdivisionLevel(2);
 
     double x, y, z;
-    getSimulationDimensions(&x, &y, &z);
+    _fluidsim->getSimulationDimensions(&x, &y, &z);
 
     double boxWidth = (1.0 / 3.0) * x;
     double boxHeight = (1.0 / 3.0) * y;
@@ -58,10 +62,10 @@ void FluidManager::initialize()
     TriangleMesh boxMesh = getTriangleMeshFromAABB(box);
     MeshObject boxFluidObject(_isize, _jsize, _ksize, _dx);
     boxFluidObject.updateMeshStatic(boxMesh);
-    addMeshFluid(boxFluidObject);
+    _fluidsim->addMeshFluid(boxFluidObject);
 
-    addBodyForce(0.0, -25.0, 0.0);
-    FluidSimulation::initialize();
+    _fluidsim->addBodyForce(0.0, -25.0, 0.0);
+    _fluidsim->initialize();
 
 }
 
@@ -71,8 +75,8 @@ void FluidManager::initialize()
 // Simulation methods
 void FluidManager::iUpdate()
 {
-    int frameno = getCurrentFrame();
-    FluidSimulation::update(_timeStep);
+    int frameno = _fluidsim->getCurrentFrame();
+    _fluidsim->update(_timeStep);
 }
 
 void FluidManager::iResetSimulationState(vector<ConstantBuffer>& constantBuffer)
@@ -86,12 +90,14 @@ vector<Vertex>& FluidManager::iGetVertice()
     _vertice.clear();
     _normal.clear();
 
-    for (int i = 0; i < _isomesh.vertices.size(); i++)
+    TriangleMesh isomesh = _fluidsim->getIsomesh();
+
+    for (int i = 0; i < isomesh.vertices.size(); i++)
     {
         Vertex v;
-        v.pos.x = _isomesh.vertices[i].x;
-        v.pos.y = _isomesh.vertices[i].y;
-        v.pos.z = _isomesh.vertices[i].z;
+        v.pos.x = isomesh.vertices[i].x;
+        v.pos.y = isomesh.vertices[i].y;
+        v.pos.z = isomesh.vertices[i].z;
 
         _normal.push_back(vec3(0.0f, 0.0f, 0.0f));
 
@@ -99,16 +105,16 @@ vector<Vertex>& FluidManager::iGetVertice()
     }
 
 
-    for (int i = 0; i < _isomesh.triangles.size(); i++)
+    for (int i = 0; i < isomesh.triangles.size(); i++)
     {
-        int i0 = _isomesh.triangles[i].tri[0];
-        int i1 = _isomesh.triangles[i].tri[1];
-        int i2 = _isomesh.triangles[i].tri[2];
+        int i0 = isomesh.triangles[i].tri[0];
+        int i1 = isomesh.triangles[i].tri[1];
+        int i2 = isomesh.triangles[i].tri[2];
 
         
-        vec3 v0 = _isomesh.vertices[i0];
-        vec3 v1 = _isomesh.vertices[i1];
-        vec3 v2 = _isomesh.vertices[i2];
+        vec3 v0 = isomesh.vertices[i0];
+        vec3 v1 = isomesh.vertices[i1];
+        vec3 v2 = isomesh.vertices[i2];
 
         vec3 e0 = v1 - v0;
         vec3 e1 = v2 - v0;
@@ -120,7 +126,7 @@ vector<Vertex>& FluidManager::iGetVertice()
     }
 
 
-    for (int i = 0; i < _isomesh.vertices.size(); i++)
+    for (int i = 0; i < isomesh.vertices.size(); i++)
     {
         vec3 nor = normalize(_normal[i]);
         _vertice[i].nor.x = nor.x;
@@ -134,12 +140,13 @@ vector<Vertex>& FluidManager::iGetVertice()
 vector<unsigned int>& FluidManager::iGetIndice()
 {
     _indice.clear();
+    TriangleMesh isomesh = _fluidsim->getIsomesh();
 
-    for (int i = 0; i < _isomesh.triangles.size(); i++)
+    for (int i = 0; i < isomesh.triangles.size(); i++)
     {
         for (int j = 0; j < 3; j++)
         {
-            unsigned int a = static_cast<unsigned int>(_isomesh.triangles[i].tri[j]);
+            unsigned int a = static_cast<unsigned int>(isomesh.triangles[i].tri[j]);
             _indice.push_back(a);
         }
         //std::cout << "\n";

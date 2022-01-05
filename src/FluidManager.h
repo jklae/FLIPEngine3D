@@ -4,13 +4,13 @@
 #include "engine/stopwatch.h"
 #include "Win32App.h" // This includes ISimulation.h
 
-class FluidManager : public FluidSimulation, public ISimulation
+class FluidManager : public ISimulation
 {
 public:
 	FluidManager(int isize, int jsize, int ksize, double dx, double timeStep);
 	~FluidManager() override;
 
-	void initialize() override;
+	void initialize();
 
 #pragma region Implementation
 	// ################################## Implementation ####################################
@@ -54,11 +54,15 @@ private:
 	DX12App* _dxapp;
 	bool _updateFlag = true;
 
+	int _isize, _jsize, _ksize;
+	double _dx;
+	double _timeStep;
+
     std::vector<Vertex> _vertice;
     std::vector<vmath::vec3> _normal;
     std::vector<unsigned int> _indice;
-	double _timeStep = 0.0;
 
     TriangleMesh getTriangleMeshFromAABB(AABB bbox);
+	FluidSimulation* _fluidsim;
 };
 

@@ -1126,7 +1126,10 @@ public:
     void loadMarkerParticleData(FluidSimulationMarkerParticleData data);
     void loadDiffuseParticleData(FluidSimulationDiffuseParticleData data);
 
-protected:   
+    //
+    TriangleMesh& getIsomesh();
+
+private:   
 
     struct FluidMeshObject {
         MeshObject object;
