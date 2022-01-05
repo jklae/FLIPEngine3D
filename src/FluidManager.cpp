@@ -81,6 +81,12 @@ void FluidManager::iUpdate()
 
 void FluidManager::iResetSimulationState(vector<ConstantBuffer>& constantBuffer)
 {
+    //constantBuffer
+
+    delete _fluidsim;
+
+    _fluidsim = new FluidSimulation(_isize, _jsize, _ksize, _dx);
+    initialize();
 }
 
 
@@ -187,7 +193,7 @@ DirectX::XMFLOAT3 FluidManager::iGetObjectPositionOffset()
 void FluidManager::iCreateObject(vector<ConstantBuffer>& constantBuffer)
 {
     struct ConstantBuffer objectCB;
-    // Multiply by a specific value to make a stripe
+    
     objectCB.world = transformMatrix(0.0f, 0.0f, 0.0f, 1.0f);
     objectCB.worldViewProj = transformMatrix(0.0f, 0.0f, 0.0f);
     objectCB.transInvWorld = transformMatrix(0.0f, 0.0f, 0.0f);
@@ -264,6 +270,7 @@ void FluidManager::iWMCommand(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam,
         case static_cast<int>(_COM::STOP) :
         {
             _dxapp->resetSimulationState();
+            iUpdate();
             _dxapp->update();
             _dxapp->draw();
         }
