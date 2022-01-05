@@ -47,7 +47,7 @@ public:
 private:
 	enum class _COM
 	{
-		PLAY, STOP, NEXTSTEP, RESPAWN,
+		PLAY, STOP, NEXTSTEP,
 		TIME_TEXT, FRAME_TEXT
 	};
 
@@ -64,5 +64,11 @@ private:
 
     TriangleMesh getTriangleMeshFromAABB(AABB bbox);
 	FluidSimulation* _fluidsim;
+
+	clock_t _simTime = 0;
+	int _simFrame = 0;
+
+	wchar_t wBuffer[5];
+	wchar_t* _int2wchar(int value);
 };
 

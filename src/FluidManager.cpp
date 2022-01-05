@@ -69,20 +69,28 @@ void FluidManager::initialize()
 
 }
 
+wchar_t* FluidManager::_int2wchar(int value)
+{
+    _itow(value, wBuffer, 10);
+    return wBuffer;
+}
 
 #pragma region Implementation
 // ################################## Implementation ####################################
 // Simulation methods
 void FluidManager::iUpdate()
 {
-    int frameno = _fluidsim->getCurrentFrame();
+    _simFrame = _fluidsim->getCurrentFrame();
+
+    clock_t startTime = clock();
     _fluidsim->update(_timeStep);
+    clock_t endTime = clock();
+
+    _simTime += endTime - startTime; // ms
 }
 
 void FluidManager::iResetSimulationState(vector<ConstantBuffer>& constantBuffer)
 {
-    //constantBuffer
-
     delete _fluidsim;
 
     _fluidsim = new FluidSimulation(_isize, _jsize, _ksize, _dx);
@@ -155,7 +163,6 @@ vector<unsigned int>& FluidManager::iGetIndice()
             unsigned int a = static_cast<unsigned int>(isomesh.triangles[i].tri[j]);
             _indice.push_back(a);
         }
-        //std::cout << "\n";
     }
 
     return _indice;
@@ -231,22 +238,34 @@ bool FluidManager::iIsUpdated()
 // WndProc methods
 void FluidManager::iWMCreate(HWND hwnd, HINSTANCE hInstance)
 {
-    CreateWindow(L"button", L"Respawn", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
-        85, 250, 110, 30, hwnd, reinterpret_cast<HMENU>(_COM::RESPAWN), hInstance, NULL);
     CreateWindow(L"button", _updateFlag ? L"¡«" : L"¢º", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
         65, 290, 50, 25, hwnd, reinterpret_cast<HMENU>(_COM::PLAY), hInstance, NULL);
     CreateWindow(L"button", L"¡á", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
         115, 290, 50, 25, hwnd, reinterpret_cast<HMENU>(_COM::STOP), hInstance, NULL);
     CreateWindow(L"button", L"¢ºl", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
         165, 290, 50, 25, hwnd, reinterpret_cast<HMENU>(_COM::NEXTSTEP), hInstance, NULL);
+
+    CreateWindow(L"static", L"time :", WS_CHILD | WS_VISIBLE,
+        80, 340, 40, 20, hwnd, reinterpret_cast<HMENU>(-1), hInstance, NULL);
+    CreateWindow(L"static", _int2wchar(_simTime), WS_CHILD | WS_VISIBLE,
+        130, 340, 40, 20, hwnd, reinterpret_cast<HMENU>(_COM::TIME_TEXT), hInstance, NULL);
+    CreateWindow(L"static", L"frame :", WS_CHILD | WS_VISIBLE,
+        80, 360, 40, 20, hwnd, reinterpret_cast<HMENU>(-1), hInstance, NULL);
+    CreateWindow(L"static", _int2wchar(_simFrame), WS_CHILD | WS_VISIBLE,
+        130, 360, 40, 20, hwnd, reinterpret_cast<HMENU>(_COM::FRAME_TEXT), hInstance, NULL);
+
+    SetTimer(hwnd, 1, 10, NULL);
 }
 
 void FluidManager::iWMTimer(HWND hwnd)
 {
+    SetDlgItemText(hwnd, static_cast<int>(_COM::TIME_TEXT), _int2wchar(_simTime));
+    SetDlgItemText(hwnd, static_cast<int>(_COM::FRAME_TEXT), _int2wchar(_simFrame));
 }
 
 void FluidManager::iWMDestory(HWND hwnd)
 {
+    KillTimer(hwnd, 1);
 }
 
 void FluidManager::iWMHScroll(HWND hwnd, WPARAM wParam, LPARAM lParam, HINSTANCE hInstance)
@@ -273,6 +292,9 @@ void FluidManager::iWMCommand(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam,
             iUpdate();
             _dxapp->update();
             _dxapp->draw();
+
+            _simTime = 0;
+            _simFrame = 0;
         }
         break;
         case static_cast<int>(_COM::NEXTSTEP) :
@@ -280,16 +302,6 @@ void FluidManager::iWMCommand(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam,
             iUpdate();
             _dxapp->update();
             _dxapp->draw();
-        }
-        break;
-        case static_cast<int>(_COM::RESPAWN) :
-        {
-            initialize();
-            iUpdate();
-            _dxapp->update();
-            _dxapp->draw();
-
-            EnableWindow(GetDlgItem(hwnd, static_cast<int>(_COM::RESPAWN)), false);
         }
         break;
     }
