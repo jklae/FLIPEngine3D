@@ -13,7 +13,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, in
     int jsize = 30;
     int ksize = 30;
     double dx = 0.125;
-    double timestep = 1.0 / 30.0;
+    double timestep = FPS30_D;
 
     FluidManager* fluidsim = new FluidManager(isize, jsize, ksize, dx, timestep);
     fluidsim->initialize();
