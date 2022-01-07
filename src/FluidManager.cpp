@@ -238,12 +238,12 @@ bool FluidManager::iIsUpdated()
 // WndProc methods
 void FluidManager::iWMCreate(HWND hwnd, HINSTANCE hInstance)
 {
-    CreateWindow(L"button", _updateFlag ? L"¡«" : L"¢º", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
-        65, 290, 50, 25, hwnd, reinterpret_cast<HMENU>(_COM::PLAY), hInstance, NULL);
-    CreateWindow(L"button", L"¡á", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
-        115, 290, 50, 25, hwnd, reinterpret_cast<HMENU>(_COM::STOP), hInstance, NULL);
-    CreateWindow(L"button", L"¢ºl", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
-        165, 290, 50, 25, hwnd, reinterpret_cast<HMENU>(_COM::NEXTSTEP), hInstance, NULL);
+    CreateWindow(L"button", _updateFlag ? L"¡« Pause" : L"¢º Play", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
+        85, 210, 110, 30, hwnd, reinterpret_cast<HMENU>(_COM::PLAY), hInstance, NULL);
+    CreateWindow(L"button", L"¡á  Stop", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
+        85, 250, 110, 30, hwnd, reinterpret_cast<HMENU>(_COM::STOP), hInstance, NULL);
+    CreateWindow(L"button", L"¢ºl  Next", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
+        85, 290, 110, 30, hwnd, reinterpret_cast<HMENU>(_COM::NEXTSTEP), hInstance, NULL);
 
     CreateWindow(L"static", L"time :", WS_CHILD | WS_VISIBLE,
         80, 340, 40, 20, hwnd, reinterpret_cast<HMENU>(-1), hInstance, NULL);
@@ -280,7 +280,7 @@ void FluidManager::iWMCommand(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam,
         case static_cast<int>(_COM::PLAY) :
         {
             _updateFlag = !_updateFlag;
-            SetDlgItemText(hwnd, static_cast<int>(_COM::PLAY), _updateFlag ? L"¡«" : L"¢º");
+            SetDlgItemText(hwnd, static_cast<int>(_COM::PLAY), _updateFlag ? L"¡« Pause" : L"¢º  Play");
 
             EnableWindow(GetDlgItem(hwnd, static_cast<int>(_COM::STOP)), true);
             EnableWindow(GetDlgItem(hwnd, static_cast<int>(_COM::NEXTSTEP)), !_updateFlag);
