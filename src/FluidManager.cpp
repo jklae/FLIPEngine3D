@@ -47,7 +47,7 @@ TriangleMesh FluidManager::getTriangleMeshFromAABB(AABB bbox) {
 
 void FluidManager::initialize()
 {
-    assert(fluidsim != nullptr);
+    assert(_fluidsim != nullptr);
 
     _fluidsim->setSurfaceSubdivisionLevel(2);
 
