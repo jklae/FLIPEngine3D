@@ -1,6 +1,10 @@
 # Created by https://www.toptal.com/developers/gitignore/api/windows,visualstudio,c++,cmake
-### Custon ###
+### Etc ###
+# Mesh files
 *.ply
+
+# Shader files
+*.cso
 
 ### C++ ###
 # Prerequisites

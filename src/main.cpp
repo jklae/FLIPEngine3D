@@ -3,27 +3,38 @@
 #pragma comment(linker, "/entry:WinMainCRTStartup /subsystem:console")
 #endif
 
-#include "SubFluidSimulation.h" // This includes Win32App.h
+#include "FluidManager.h" // This includes Win32App.h
 
+using namespace DXViewer::xmint3;
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, int showCmd)
 {
-    int isize = 40;
-    int jsize = 40;
-    int ksize = 40;
+    int isize = 30;
+    int jsize = 30;
+    int ksize = 30;
     double dx = 0.125;
-    double timestep = 1.0 / 30.0;
+    double timestep = FPS30_D;
 
-    SubFluidSimulation* fluidsim = new SubFluidSimulation(isize, jsize, ksize, dx);
+    FluidManager* fluidsim = new FluidManager(isize, jsize, ksize, dx, timestep);
     fluidsim->initialize();
 
+    // DirectX init
     DX12App* dxapp = new DX12App();
-    dxapp->SetSimulation(fluidsim, timestep);
+    int maxSize = max_element(DirectX::XMINT3(isize, jsize, ksize));
+    dxapp->setCameraProperties(
+        PROJ::PERSPECTIVE,
+        0.0f, maxSize * 0.25f,
+        -0.3f, -0.3f);
+    /*dxapp->setCameraProperties(
+        PROJ::ORTHOGRAPHIC,
+        maxSize * 0.00035f, maxSize * 0.2f,
+        -0.3f, -0.3f);*/
+    dxapp->setBackgroundColor(DirectX::Colors::LightSlateGray);
 
-    Win32App winApp(800, 600);
-    winApp.Initialize(hInstance);
+    // Window init
+    Win32App winApp(500, 500);
+    winApp.setWinName(L"3D Fluid Simulation");
+    winApp.initialize(hInstance, dxapp, fluidsim);
 
-    winApp.InitDirectX(dxapp);
-
-    return winApp.Run();
+    return winApp.run();
 }
