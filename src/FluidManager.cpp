@@ -246,13 +246,13 @@ void FluidManager::iWMCreate(HWND hwnd, HINSTANCE hInstance)
         85, 220, 110, 30, hwnd, reinterpret_cast<HMENU>(_COM::NEXTSTEP), hInstance, NULL);
 
     CreateWindow(L"static", L"time :", WS_CHILD | WS_VISIBLE,
-        80, 270, 40, 20, hwnd, reinterpret_cast<HMENU>(-1), hInstance, NULL);
+        99, 270, 40, 20, hwnd, reinterpret_cast<HMENU>(-1), hInstance, NULL);
     CreateWindow(L"static", _int2wchar(_simTime), WS_CHILD | WS_VISIBLE,
-        130, 270, 40, 20, hwnd, reinterpret_cast<HMENU>(_COM::TIME_TEXT), hInstance, NULL);
+        144, 270, 40, 20, hwnd, reinterpret_cast<HMENU>(_COM::TIME_TEXT), hInstance, NULL);
     CreateWindow(L"static", L"frame :", WS_CHILD | WS_VISIBLE,
-        80, 290, 40, 20, hwnd, reinterpret_cast<HMENU>(-1), hInstance, NULL);
+        90, 290, 45, 20, hwnd, reinterpret_cast<HMENU>(-1), hInstance, NULL);
     CreateWindow(L"static", _int2wchar(_simFrame), WS_CHILD | WS_VISIBLE,
-        130, 290, 40, 20, hwnd, reinterpret_cast<HMENU>(_COM::FRAME_TEXT), hInstance, NULL);
+        144, 290, 40, 20, hwnd, reinterpret_cast<HMENU>(_COM::FRAME_TEXT), hInstance, NULL);
 
     SetTimer(hwnd, 1, 10, NULL);
 }
