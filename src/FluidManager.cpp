@@ -239,20 +239,20 @@ bool FluidManager::iIsUpdated()
 void FluidManager::iWMCreate(HWND hwnd, HINSTANCE hInstance)
 {
     CreateWindow(L"button", _updateFlag ? L"¡« Pause" : L"¢º Play", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
-        85, 210, 110, 30, hwnd, reinterpret_cast<HMENU>(_COM::PLAY), hInstance, NULL);
+        85, 140, 110, 30, hwnd, reinterpret_cast<HMENU>(_COM::PLAY), hInstance, NULL);
     CreateWindow(L"button", L"¡á  Stop", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
-        85, 250, 110, 30, hwnd, reinterpret_cast<HMENU>(_COM::STOP), hInstance, NULL);
+        85, 180, 110, 30, hwnd, reinterpret_cast<HMENU>(_COM::STOP), hInstance, NULL);
     CreateWindow(L"button", L"¢ºl  Next", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
-        85, 290, 110, 30, hwnd, reinterpret_cast<HMENU>(_COM::NEXTSTEP), hInstance, NULL);
+        85, 220, 110, 30, hwnd, reinterpret_cast<HMENU>(_COM::NEXTSTEP), hInstance, NULL);
 
     CreateWindow(L"static", L"time :", WS_CHILD | WS_VISIBLE,
-        80, 340, 40, 20, hwnd, reinterpret_cast<HMENU>(-1), hInstance, NULL);
+        80, 270, 40, 20, hwnd, reinterpret_cast<HMENU>(-1), hInstance, NULL);
     CreateWindow(L"static", _int2wchar(_simTime), WS_CHILD | WS_VISIBLE,
-        130, 340, 40, 20, hwnd, reinterpret_cast<HMENU>(_COM::TIME_TEXT), hInstance, NULL);
+        130, 270, 40, 20, hwnd, reinterpret_cast<HMENU>(_COM::TIME_TEXT), hInstance, NULL);
     CreateWindow(L"static", L"frame :", WS_CHILD | WS_VISIBLE,
-        80, 360, 40, 20, hwnd, reinterpret_cast<HMENU>(-1), hInstance, NULL);
+        80, 290, 40, 20, hwnd, reinterpret_cast<HMENU>(-1), hInstance, NULL);
     CreateWindow(L"static", _int2wchar(_simFrame), WS_CHILD | WS_VISIBLE,
-        130, 360, 40, 20, hwnd, reinterpret_cast<HMENU>(_COM::FRAME_TEXT), hInstance, NULL);
+        130, 290, 40, 20, hwnd, reinterpret_cast<HMENU>(_COM::FRAME_TEXT), hInstance, NULL);
 
     SetTimer(hwnd, 1, 10, NULL);
 }

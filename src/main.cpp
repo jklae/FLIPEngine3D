@@ -27,12 +27,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, in
         -0.3f, -0.3f);
     /*dxapp->setCameraProperties(
         PROJ::ORTHOGRAPHIC,
-        maxSize * 0.0002f, maxSize * 0.2f,
+        maxSize * 0.00035f, maxSize * 0.2f,
         -0.3f, -0.3f);*/
     dxapp->setBackgroundColor(DirectX::Colors::LightSlateGray);
 
     // Window init
-    Win32App winApp(800, 800);
+    Win32App winApp(500, 500);
     winApp.setWinName(L"3D Fluid Simulation");
     winApp.initialize(hInstance, dxapp, fluidsim);
 
