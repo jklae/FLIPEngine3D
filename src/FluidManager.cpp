@@ -4,7 +4,6 @@ using Microsoft::WRL::ComPtr;
 using namespace DirectX;
 using namespace std;
 using namespace vmath;
-using namespace DXViewer::util;
 using namespace DXViewer::xmfloat3;
 
 FluidManager::FluidManager(int isize, int jsize, int ksize, double dx, double timeStep)
@@ -201,9 +200,9 @@ void FluidManager::iCreateObject(vector<ConstantBuffer>& constantBuffer)
 {
     struct ConstantBuffer objectCB;
     
-    objectCB.world = transformMatrix(0.0f, 0.0f, 0.0f, 1.0f);
-    objectCB.worldViewProj = transformMatrix(0.0f, 0.0f, 0.0f);
-    objectCB.transInvWorld = transformMatrix(0.0f, 0.0f, 0.0f);
+    objectCB.world = DXViewer::util::transformMatrix(0.0f, 0.0f, 0.0f, 1.0f);
+    objectCB.worldViewProj = DXViewer::util::transformMatrix(0.0f, 0.0f, 0.0f);
+    objectCB.transInvWorld = DXViewer::util::transformMatrix(0.0f, 0.0f, 0.0f);
     objectCB.color = XMFLOAT4(0.1f, 0.25f, 0.3f, 1.0f);
 
     constantBuffer.push_back(objectCB);
@@ -257,17 +256,6 @@ void FluidManager::iWMCreate(HWND hwnd, HINSTANCE hInstance)
     SetTimer(hwnd, 1, 10, NULL);
 }
 
-void FluidManager::iWMTimer(HWND hwnd)
-{
-    SetDlgItemText(hwnd, static_cast<int>(_COM::TIME_TEXT), _int2wchar(_simTime));
-    SetDlgItemText(hwnd, static_cast<int>(_COM::FRAME_TEXT), _int2wchar(_simFrame));
-}
-
-void FluidManager::iWMDestory(HWND hwnd)
-{
-    KillTimer(hwnd, 1);
-}
-
 void FluidManager::iWMHScroll(HWND hwnd, WPARAM wParam, LPARAM lParam, HINSTANCE hInstance)
 {
 }
@@ -307,5 +295,15 @@ void FluidManager::iWMCommand(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam,
     }
 }
 
+void FluidManager::iWMTimer(HWND hwnd)
+{
+    SetDlgItemText(hwnd, static_cast<int>(_COM::TIME_TEXT), _int2wchar(_simTime));
+    SetDlgItemText(hwnd, static_cast<int>(_COM::FRAME_TEXT), _int2wchar(_simFrame));
+}
+
+void FluidManager::iWMDestory(HWND hwnd)
+{
+    KillTimer(hwnd, 1);
+}
 // #######################################################################################
 #pragma endregion
