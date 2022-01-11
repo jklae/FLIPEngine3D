@@ -252,6 +252,11 @@ void FluidManager::iWMCreate(HWND hwnd, HINSTANCE hInstance)
         90, 290, 45, 20, hwnd, reinterpret_cast<HMENU>(-1), hInstance, NULL);
     CreateWindow(L"static", _int2wchar(_simFrame), WS_CHILD | WS_VISIBLE,
         144, 290, 40, 20, hwnd, reinterpret_cast<HMENU>(_COM::FRAME_TEXT), hInstance, NULL);
+    
+    if (_updateFlag)
+    {
+        EnableWindow(GetDlgItem(hwnd, static_cast<int>(_COM::NEXTSTEP)), false);
+    }
 
     SetTimer(hwnd, 1, 10, NULL);
 }
