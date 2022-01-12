@@ -91,9 +91,16 @@ void FluidManager::iUpdate()
 void FluidManager::iResetSimulationState(vector<ConstantBuffer>& constantBuffer)
 {
     delete _fluidsim;
-
     _fluidsim = new FluidSimulation(_isize, _jsize, _ksize, _dx);
     initialize();
+
+    iUpdate();
+    _dxapp->update();
+    _dxapp->draw();
+
+    _simTime = 0;
+    _simFrame = 0;
+
 }
 
 
@@ -282,12 +289,6 @@ void FluidManager::iWMCommand(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam,
         case static_cast<int>(_COM::STOP) :
         {
             _dxapp->resetSimulationState();
-            iUpdate();
-            _dxapp->update();
-            _dxapp->draw();
-
-            _simTime = 0;
-            _simFrame = 0;
         }
         break;
         case static_cast<int>(_COM::NEXTSTEP) :
