@@ -247,11 +247,11 @@ void FluidManager::iWMCreate(HWND hwnd, HINSTANCE hInstance)
 
     CreateWindow(L"static", L"time :", WS_CHILD | WS_VISIBLE,
         99, 270, 40, 20, hwnd, reinterpret_cast<HMENU>(-1), hInstance, NULL);
-    CreateWindow(L"static", DXViewer::util::int2wstring(_simTime).c_str(), WS_CHILD | WS_VISIBLE,
+    CreateWindow(L"static", to_wstring(_simTime).c_str(), WS_CHILD | WS_VISIBLE,
         144, 270, 40, 20, hwnd, reinterpret_cast<HMENU>(_COM::TIME_TEXT), hInstance, NULL);
     CreateWindow(L"static", L"frame :", WS_CHILD | WS_VISIBLE,
         90, 290, 45, 20, hwnd, reinterpret_cast<HMENU>(-1), hInstance, NULL);
-    CreateWindow(L"static", DXViewer::util::int2wstring(_simFrame).c_str(), WS_CHILD | WS_VISIBLE,
+    CreateWindow(L"static", to_wstring(_simFrame).c_str(), WS_CHILD | WS_VISIBLE,
         144, 290, 40, 20, hwnd, reinterpret_cast<HMENU>(_COM::FRAME_TEXT), hInstance, NULL);
     
     if (_updateFlag)
@@ -297,8 +297,8 @@ void FluidManager::iWMCommand(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam,
 
 void FluidManager::iWMTimer(HWND hwnd)
 {
-    SetDlgItemText(hwnd, static_cast<int>(_COM::TIME_TEXT), DXViewer::util::int2wstring(_simTime).c_str());
-    SetDlgItemText(hwnd, static_cast<int>(_COM::FRAME_TEXT), DXViewer::util::int2wstring(_simFrame).c_str());
+    SetDlgItemText(hwnd, static_cast<int>(_COM::TIME_TEXT), to_wstring(_simTime).c_str());
+    SetDlgItemText(hwnd, static_cast<int>(_COM::FRAME_TEXT), to_wstring(_simFrame).c_str());
 }
 
 void FluidManager::iWMDestory(HWND hwnd)
