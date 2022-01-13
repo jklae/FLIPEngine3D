@@ -67,8 +67,5 @@ private:
 
 	clock_t _simTime = 0;
 	int _simFrame = 0;
-
-	wchar_t wBuffer[5];
-	wchar_t* _int2wchar(int value);
 };
 
