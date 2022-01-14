@@ -45,7 +45,7 @@ public:
 #pragma endregion
 
 private:
-	enum class _COM
+	enum class COM
 	{
 		PLAY, STOP, NEXTSTEP,
 		TIME_TEXT, FRAME_TEXT

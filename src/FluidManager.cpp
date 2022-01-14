@@ -239,24 +239,24 @@ bool FluidManager::iIsUpdated()
 void FluidManager::iWMCreate(HWND hwnd, HINSTANCE hInstance)
 {
     CreateWindow(L"button", _updateFlag ? L"¡« Pause" : L"¢º Play", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
-        85, 140, 110, 30, hwnd, reinterpret_cast<HMENU>(_COM::PLAY), hInstance, NULL);
+        85, 140, 110, 30, hwnd, reinterpret_cast<HMENU>(COM::PLAY), hInstance, NULL);
     CreateWindow(L"button", L"¡á  Stop", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
-        85, 180, 110, 30, hwnd, reinterpret_cast<HMENU>(_COM::STOP), hInstance, NULL);
+        85, 180, 110, 30, hwnd, reinterpret_cast<HMENU>(COM::STOP), hInstance, NULL);
     CreateWindow(L"button", L"¢ºl  Next", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
-        85, 220, 110, 30, hwnd, reinterpret_cast<HMENU>(_COM::NEXTSTEP), hInstance, NULL);
+        85, 220, 110, 30, hwnd, reinterpret_cast<HMENU>(COM::NEXTSTEP), hInstance, NULL);
 
     CreateWindow(L"static", L"time :", WS_CHILD | WS_VISIBLE,
         99, 270, 40, 20, hwnd, reinterpret_cast<HMENU>(-1), hInstance, NULL);
     CreateWindow(L"static", to_wstring(_simTime).c_str(), WS_CHILD | WS_VISIBLE,
-        144, 270, 40, 20, hwnd, reinterpret_cast<HMENU>(_COM::TIME_TEXT), hInstance, NULL);
+        144, 270, 40, 20, hwnd, reinterpret_cast<HMENU>(COM::TIME_TEXT), hInstance, NULL);
     CreateWindow(L"static", L"frame :", WS_CHILD | WS_VISIBLE,
         90, 290, 45, 20, hwnd, reinterpret_cast<HMENU>(-1), hInstance, NULL);
     CreateWindow(L"static", to_wstring(_simFrame).c_str(), WS_CHILD | WS_VISIBLE,
-        144, 290, 40, 20, hwnd, reinterpret_cast<HMENU>(_COM::FRAME_TEXT), hInstance, NULL);
+        144, 290, 40, 20, hwnd, reinterpret_cast<HMENU>(COM::FRAME_TEXT), hInstance, NULL);
     
     if (_updateFlag)
     {
-        EnableWindow(GetDlgItem(hwnd, static_cast<int>(_COM::NEXTSTEP)), false);
+        EnableWindow(GetDlgItem(hwnd, static_cast<int>(COM::NEXTSTEP)), false);
     }
 
     SetTimer(hwnd, 1, 10, NULL);
@@ -271,21 +271,21 @@ void FluidManager::iWMCommand(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam,
     switch (LOWORD(wParam))
     {
         // ### Execution buttons ###
-        case static_cast<int>(_COM::PLAY) :
+        case static_cast<int>(COM::PLAY) :
         {
             _updateFlag = !_updateFlag;
-            SetDlgItemText(hwnd, static_cast<int>(_COM::PLAY), _updateFlag ? L"¡« Pause" : L"¢º  Play");
+            SetDlgItemText(hwnd, static_cast<int>(COM::PLAY), _updateFlag ? L"¡« Pause" : L"¢º  Play");
 
-            EnableWindow(GetDlgItem(hwnd, static_cast<int>(_COM::STOP)), true);
-            EnableWindow(GetDlgItem(hwnd, static_cast<int>(_COM::NEXTSTEP)), !_updateFlag);
+            EnableWindow(GetDlgItem(hwnd, static_cast<int>(COM::STOP)), true);
+            EnableWindow(GetDlgItem(hwnd, static_cast<int>(COM::NEXTSTEP)), !_updateFlag);
         }
         break;
-        case static_cast<int>(_COM::STOP) :
+        case static_cast<int>(COM::STOP) :
         {
             _dxapp->resetSimulationState();
         }
         break;
-        case static_cast<int>(_COM::NEXTSTEP) :
+        case static_cast<int>(COM::NEXTSTEP) :
         {
             iUpdate();
             _dxapp->update();
@@ -297,8 +297,8 @@ void FluidManager::iWMCommand(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam,
 
 void FluidManager::iWMTimer(HWND hwnd)
 {
-    SetDlgItemText(hwnd, static_cast<int>(_COM::TIME_TEXT), to_wstring(_simTime).c_str());
-    SetDlgItemText(hwnd, static_cast<int>(_COM::FRAME_TEXT), to_wstring(_simFrame).c_str());
+    SetDlgItemText(hwnd, static_cast<int>(COM::TIME_TEXT), to_wstring(_simTime).c_str());
+    SetDlgItemText(hwnd, static_cast<int>(COM::FRAME_TEXT), to_wstring(_simFrame).c_str());
 }
 
 void FluidManager::iWMDestory(HWND hwnd)
