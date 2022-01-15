@@ -34,6 +34,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, in
     // Window init
     Win32App winApp(500, 500);
     winApp.setWinName(L"3D Fluid Simulation");
+    winApp.setWinOffset(400, 200);
     winApp.initialize(hInstance, dxapp, fluidsim);
 
     return winApp.run();
