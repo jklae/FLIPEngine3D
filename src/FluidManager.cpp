@@ -199,7 +199,7 @@ DirectX::XMFLOAT3 FluidManager::iGetObjectPositionOffset()
 // DirectX methods
 void FluidManager::iCreateObject(vector<ConstantBuffer>& constantBuffer)
 {
-    struct ConstantBuffer objectCB;
+    ConstantBuffer objectCB;
     
     objectCB.world = DXViewer::util::transformMatrix(0.0f, 0.0f, 0.0f, 1.0f);
     objectCB.worldViewProj = DXViewer::util::transformMatrix(0.0f, 0.0f, 0.0f);
