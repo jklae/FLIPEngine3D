@@ -2,7 +2,7 @@
 ## Overview
 ![demo](docs/images/demo.gif)
 
-FLIPEngine3D is a visualization of the <A href="https://github.com/rlguy/Blender-FLIP-Fluids">FLIP Fluids</A> using <A href="https://github.com/frostsim/DXViewer">DXViewer</A>.
+FLIPEngine3D is a visualization of the FLIP Fluids<sup>[1](#footnote_1)</sup> using <A href="https://github.com/frostsim/DXViewer">DXViewer</A>.
 
 ## Build
 This repo was developed in the following environment:
@@ -17,4 +17,4 @@ git submodule update --progress --init -- "ext/DXViewer"
 ```
 
 ## Reference
-* Ryan Guy. _Blender-FLIP-Fluids_. https://github.com/rlguy/Blender-FLIP-Fluids
+* <a name="footnote_1">[1]</a> Ryan Guy. _Blender-FLIP-Fluids_. https://github.com/rlguy/Blender-FLIP-Fluids
