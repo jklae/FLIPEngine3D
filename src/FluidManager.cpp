@@ -205,6 +205,7 @@ void FluidManager::iCreateObject(vector<ConstantBuffer>& constantBuffer)
     objectCB.worldViewProj = DXViewer::util::transformMatrix(0.0f, 0.0f, 0.0f);
     objectCB.transInvWorld = DXViewer::util::transformMatrix(0.0f, 0.0f, 0.0f);
     objectCB.color = XMFLOAT4(0.1f, 0.25f, 0.3f, 1.0f);
+    objectCB.lightPos = XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f);
 
     constantBuffer.push_back(objectCB);
 }

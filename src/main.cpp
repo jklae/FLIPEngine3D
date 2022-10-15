@@ -30,6 +30,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, in
         maxSize * 0.00035f, maxSize * 0.2f,
         -0.3f, -0.3f);*/
     dxapp->setBackgroundColor(DirectX::Colors::LightSlateGray);
+    dxapp->setLightPosition(1.0f, 1.0f, 1.0f);
 
     // Window init
     Win32App winApp(500, 500);
