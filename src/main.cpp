@@ -15,6 +15,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, in
     double dx = 0.125;
     double timestep = FPS30_D;
 
+    // Simulation init
     FluidManager* fluidsim = new FluidManager(isize, jsize, ksize, dx, timestep);
     fluidsim->initialize();
 
