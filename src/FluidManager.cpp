@@ -99,13 +99,14 @@ void FluidManager::iResetSimulationState(vector<ConstantBuffer>& constantBuffer)
 
 
 // Mesh methods
-vector<Vertex>& FluidManager::iGetVertice()
+vector<Vertex>& FluidManager::iGetVertices()
 {
-    _vertice.clear();
+    _vertices.clear();
     _normal.clear();
 
     TriangleMesh isomesh = _fluidsim->getIsomesh();
 
+    // Vertex
     for (int i = 0; i < isomesh.vertices.size(); i++)
     {
         Vertex v;
@@ -115,10 +116,10 @@ vector<Vertex>& FluidManager::iGetVertice()
 
         _normal.push_back(vec3(0.0f, 0.0f, 0.0f));
 
-        _vertice.push_back(v);
+        _vertices.push_back(v);
     }
 
-
+    // Normal
     for (int i = 0; i < isomesh.triangles.size(); i++)
     {
         int i0 = isomesh.triangles[i].tri[0];
@@ -139,33 +140,34 @@ vector<Vertex>& FluidManager::iGetVertice()
         _normal[i2] += faceN;
     }
 
-
+    // Normalization
     for (int i = 0; i < isomesh.vertices.size(); i++)
     {
         vec3 nor = normalize(_normal[i]);
-        _vertice[i].nor.x = nor.x;
-        _vertice[i].nor.y = nor.y;
-        _vertice[i].nor.z = nor.z;
+        _vertices[i].nor.x = nor.x;
+        _vertices[i].nor.y = nor.y;
+        _vertices[i].nor.z = nor.z;
     }
 
-    return _vertice;
+    return _vertices;
 }
 
-vector<unsigned int>& FluidManager::iGetIndice()
+vector<unsigned int>& FluidManager::iGetIndices()
 {
-    _indice.clear();
+    _indices.clear();
     TriangleMesh isomesh = _fluidsim->getIsomesh();
 
+    // Index
     for (int i = 0; i < isomesh.triangles.size(); i++)
     {
         for (int j = 0; j < 3; j++)
         {
             unsigned int a = static_cast<unsigned int>(isomesh.triangles[i].tri[j]);
-            _indice.push_back(a);
+            _indices.push_back(a);
         }
     }
 
-    return _indice;
+    return _indices;
 }
 
 UINT FluidManager::iGetVertexBufferSize()
@@ -205,6 +207,7 @@ void FluidManager::iCreateObject(vector<ConstantBuffer>& constantBuffer)
     objectCB.worldViewProj = DXViewer::util::transformMatrix(0.0f, 0.0f, 0.0f);
     objectCB.transInvWorld = DXViewer::util::transformMatrix(0.0f, 0.0f, 0.0f);
     objectCB.color = XMFLOAT4(0.1f, 0.25f, 0.3f, 1.0f);
+    objectCB.lightPos = XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f);
 
     constantBuffer.push_back(objectCB);
 }
@@ -216,7 +219,7 @@ void FluidManager::iUpdateConstantBuffer(vector<ConstantBuffer>& constantBuffer,
 void FluidManager::iDraw(ComPtr<ID3D12GraphicsCommandList>& mCommandList, int size, UINT indexCount, int i)
 {
     mCommandList->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-    mCommandList->DrawIndexedInstanced(_indice.size(), 1, 0, 0, 0);
+    mCommandList->DrawIndexedInstanced(_indices.size(), 1, 0, 0, 0);
 }
 
 void FluidManager::iSetDXApp(DX12App* dxApp)

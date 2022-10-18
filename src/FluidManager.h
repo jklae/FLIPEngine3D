@@ -19,8 +19,8 @@ public:
 	void iResetSimulationState(std::vector<ConstantBuffer>& constantBuffer) override;
 
 	// Mesh methods
-	std::vector<Vertex>& iGetVertice() override;
-	std::vector<unsigned int>& iGetIndice() override;
+	std::vector<Vertex>& iGetVertices() override;
+	std::vector<unsigned int>& iGetIndices() override;
 	UINT iGetVertexBufferSize() override;
 	UINT iGetIndexBufferSize() override;
 	DirectX::XMINT3 iGetObjectCount() override;
@@ -58,9 +58,9 @@ private:
 	double _dx;
 	double _timeStep;
 
-    std::vector<Vertex> _vertice;
+    std::vector<Vertex> _vertices;
     std::vector<vmath::vec3> _normal;
-    std::vector<unsigned int> _indice;
+    std::vector<unsigned int> _indices;
 
     TriangleMesh getTriangleMeshFromAABB(AABB bbox);
 	FluidSimulation* _fluidsim;

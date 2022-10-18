@@ -15,6 +15,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, in
     double dx = 0.125;
     double timestep = FPS30_D;
 
+    // Simulation init
     FluidManager* fluidsim = new FluidManager(isize, jsize, ksize, dx, timestep);
     fluidsim->initialize();
 
@@ -23,13 +24,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, in
     int maxSize = max_element(DirectX::XMINT3(isize, jsize, ksize));
     dxapp->setCameraProperties(
         PROJ::PERSPECTIVE,
-        0.0f, maxSize * 0.25f,
-        -0.3f, -0.3f);
-    /*dxapp->setCameraProperties(
+        maxSize * 0.25f, -0.3f, -0.3f);
+   /* dxapp->setCameraProperties(
         PROJ::ORTHOGRAPHIC,
-        maxSize * 0.00035f, maxSize * 0.2f,
-        -0.3f, -0.3f);*/
+        maxSize * 0.00035f, 
+        maxSize * 0.2f, -0.3f, -0.3f);*/
     dxapp->setBackgroundColor(DirectX::Colors::LightSlateGray);
+    dxapp->setLightPosition(1.0f, 1.0f, 1.0f);
 
     // Window init
     Win32App winApp(500, 500);
