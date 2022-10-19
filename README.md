@@ -9,6 +9,7 @@ This repo was developed in the following environment:
 * Windows 10 64-bit
 * Microsoft Visual Studio 2019 on x64 platform (C++14)
 * CMake 3.19.0
+* FLIP Fluids 1.0.9b
 
 You should update submodules before creating a project with cmake.
 
